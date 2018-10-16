@@ -26,11 +26,12 @@ list(
     ${WIN32_ROOT}/win32_timer.c
 )
 
+set(MACOS_ROOT ${SRC_ROOT}/macos)
 list(
     APPEND
     MACOS_SOURCE
     ${COMMON_SOURCE}
-    # add macos specific source files
+    ${MACOS_ROOT}/macos_timer.c
 )
 
 set(LINUX_ROOT ${SRC_ROOT}/linux)

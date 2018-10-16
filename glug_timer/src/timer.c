@@ -85,7 +85,7 @@ glug_time_t GLUG_LIB_API glug_split(struct glug_timer *timer)
     }
     }
 
-    return split / clock_frequency();
+    return clock_to_nsec(split);
 }
 
 glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
@@ -104,7 +104,7 @@ glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
         break;
     }
 
-    return split / clock_frequency();
+    return clock_to_nsec(split);
 }
 
 glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
@@ -123,7 +123,7 @@ glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
         break;
     }
 
-    return run_time / clock_frequency();
+    return clock_to_nsec(run_time);
 }
 
 glug_time_t GLUG_LIB_API glug_resolution(const struct glug_timer *timer)

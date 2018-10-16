@@ -8,12 +8,7 @@
 #include <stdint.h>
 #include <Windows.h>
 
-uint64_t clock_res()
-{
-    return NSEC / clock_frequency();
-}
-
-uint64_t clock_frequency()
+static uint64_t clock_frequency()
 {
     LARGE_INTEGER freq;
     freq.QuadPart = 1;
@@ -28,5 +23,15 @@ uint64_t read_clock()
     clock.QuadPart = 0;
     if (!QueryPerformanceCounter(&clock))
         return 0;
-    return (uint64_t)clock.QuadPart * NSEC;
+    return (uint64_t)clock.QuadPart;
+}
+
+uint64_t clock_to_nsec(uint64_t clock)
+{
+    return clock * NSEC / clock_frequency();
+}
+
+uint64_t clock_res()
+{
+    return NSEC / clock_frequency();
 }
