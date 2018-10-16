@@ -33,11 +33,12 @@ list(
     # add macos specific source files
 )
 
+set(LINUX_ROOT ${SRC_ROOT}/linux)
 list(
     APPEND
     LINUX_SOURCE
     ${COMMON_SOURCE}
-    # add linux specific source files
+    ${LINUX_ROOT}/linux_timer.c
 )
 
 set(GLUG_TARGET_NAME ${CMAKE_PROJECT_NAME})

@@ -13,11 +13,6 @@ static void clear_timer(struct glug_timer *timer)
     timer->pause_split = timer->pause_total = 0;
 }
 
-static uint64_t clock_to_nsec(uint64_t clock)
-{
-    return (clock * 1000 * 1000 * 1000) / frequency();
-}
-
 struct glug_timer GLUG_LIB_API *glug_create_timer()
 {
     struct glug_timer *timer = malloc(sizeof(struct glug_timer));
@@ -38,10 +33,12 @@ void GLUG_LIB_API glug_start_timer(struct glug_timer *timer)
         clear_timer(timer);
         break;
     case glug_ts_paused:
+    {
         glug_time_t pause_dur = read_clock() - timer->pause_clock;
         timer->pause_split += pause_dur;
         timer->pause_total += pause_dur;
         break;
+    }
     case glug_ts_running:
         break;
     }
@@ -79,14 +76,16 @@ glug_time_t GLUG_LIB_API glug_split(struct glug_timer *timer)
         timer->split_clock = timer->pause_clock;
         break;
     case glug_ts_running:
+    {
         uint64_t clock = read_clock();
         split = clock - timer->split_clock - timer->pause_split;
         timer->split_clock = clock;
         timer->pause_split = 0;
         break;
     }
+    }
 
-    return clock_to_nsec(split);
+    return split / clock_frequency();
 }
 
 glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
@@ -105,7 +104,7 @@ glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
         break;
     }
 
-    return clock_to_nsec(split);
+    return split / clock_frequency();
 }
 
 glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
@@ -124,13 +123,13 @@ glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
         break;
     }
 
-    return clock_to_nsec(run_time);
+    return run_time / clock_frequency();
 }
 
 glug_time_t GLUG_LIB_API glug_resolution(const struct glug_timer *timer)
 {
     (void) timer;
-    return clock_to_nsec(1);
+    return clock_res();
 }
 
 enum glug_timer_state GLUG_LIB_API glug_timer_state(const struct glug_timer *timer)
