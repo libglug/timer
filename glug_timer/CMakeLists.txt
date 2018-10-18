@@ -15,7 +15,7 @@ list(
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/timer_platform.h
-    # add common source files
+    ${SRC_ROOT}/safe_clock_scale.c
 )
 
 set(WIN32_ROOT ${SRC_ROOT}/win32)

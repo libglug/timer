@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <mach/mach_time.h>
 
+extern uint64_t safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom);
+
 static mach_timebase_info_data_t clock_frequency()
 {
     mach_timebase_info_data_t frequency;
@@ -18,7 +20,7 @@ uint64_t read_clock()
 uint64_t clock_to_nsec(uint64_t clock)
 {
     mach_timebase_info_data_t frequency = clock_frequency();
-    return clock * frequency.numer / frequency.denom;
+    return safe_clock_scale(clock, frequency.numer, frequency.denom);
 }
 
 uint64_t clock_res()

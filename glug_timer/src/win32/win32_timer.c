@@ -3,10 +3,12 @@
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 
-#define NSEC (uint64_t)1000 * 1000 * 1000
+#define NSEC_PER_SEC (uint64_t)1000 * 1000 * 1000
 
 #include <stdint.h>
 #include <Windows.h>
+
+extern uint64_t safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom);
 
 static uint64_t clock_frequency()
 {
@@ -28,10 +30,10 @@ uint64_t read_clock()
 
 uint64_t clock_to_nsec(uint64_t clock)
 {
-    return clock * NSEC / clock_frequency();
+    return safe_clock_scale(clock, NSEC_PER_SEC, clock_frequency());
 }
 
 uint64_t clock_res()
 {
-    return NSEC / clock_frequency();
+    return NSEC_PER_SEC / clock_frequency();
 }
