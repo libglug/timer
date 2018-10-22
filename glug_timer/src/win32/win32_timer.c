@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <Windows.h>
 
-extern uint64_t safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom);
+extern uint64_t GLUG_LIB_LOCAL safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom);
 
 static uint64_t clock_frequency()
 {
@@ -19,7 +19,7 @@ static uint64_t clock_frequency()
     return (uint64_t)freq.QuadPart;
 }
 
-uint64_t read_clock()
+uint64_t GLUG_LIB_LOCAL read_clock()
 {
     LARGE_INTEGER clock;
     clock.QuadPart = 0;
@@ -28,12 +28,12 @@ uint64_t read_clock()
     return (uint64_t)clock.QuadPart;
 }
 
-uint64_t clock_to_nsec(uint64_t clock)
+uint64_t GLUG_LIB_LOCAL clock_to_nsec(uint64_t clock)
 {
     return safe_clock_scale(clock, NSEC_PER_SEC, clock_frequency());
 }
 
-uint64_t clock_res()
+uint64_t GLUG_LIB_LOCAL clock_res()
 {
     return NSEC_PER_SEC / clock_frequency();
 }
