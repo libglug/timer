@@ -2,9 +2,12 @@
 #define GLUG_TIMER_H
 
 #include <glug/import.h>
+#include <glug/extern.h>
 
 #include <glug/timer/time_t.h>
 #include <glug/timer/timer_state.h>
+
+GLUG_EXTERN_START
 
 struct glug_timer     GLUG_LIB_API *glug_create_timer();
 void                  GLUG_LIB_API  glug_dispose_timer(struct glug_timer *);
@@ -24,5 +27,7 @@ glug_time_t           GLUG_LIB_API  glug_running_time(const struct glug_timer *)
 // state
 glug_time_t           GLUG_LIB_API  glug_resolution (const struct glug_timer *);
 enum glug_timer_state GLUG_LIB_API  glug_timer_state(const struct glug_timer *);
+
+GLUG_EXTERN_END
 
 #endif // GLUG_TIMER_H
