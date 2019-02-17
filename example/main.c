@@ -17,8 +17,8 @@ int main(int argc, char **argv)
     (void) argc;
     (void) argv;
 
-    struct glug_timer *t = glug_create_timer();
-    glug_time_t res = glug_resolution(t);
+    struct glug_timer *t = glug_timer_create();
+    glug_time_t res = glug_timer_resolution(t);
     int ctrl = 0;
 
     printf("timer resolution: %lud\n", res);
@@ -31,22 +31,22 @@ int main(int argc, char **argv)
         switch (ctrl)
         {
         case 's':
-            glug_start_timer(t);
+            glug_timer_start(t);
             break;
         case 'p':
-            glug_pause_timer(t);
+            glug_timer_pause(t);
             break;
         case 'r':
-            glug_reset_timer(t);
+            glug_timer_reset(t);
             break;
         case 't':
-            printf("total run time %.2lfms\n", glug_msec_from_time(glug_running_time(t)));
+            printf("total run time %.2lfms\n", glug_msec_from_time(glug_timer_run_time(t)));
             break;
         case 'l':
-            printf("split: %.2lfms\n", glug_msec_from_time(glug_split(t)));
+            printf("split: %.2lfms\n", glug_msec_from_time(glug_timer_split(t)));
             break;
         case 'c':
-            printf("split: %.2lfms\n", glug_msec_from_time(glug_split_cont(t)));
+            printf("split: %.2lfms\n", glug_msec_from_time(glug_timer_split_cont(t)));
             break;
         }
     }

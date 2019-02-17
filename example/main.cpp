@@ -16,8 +16,8 @@ void print_controls()
 
 int main(int, char **)
 {
-    struct glug_timer *t = glug_create_timer();
-    glug_time_t res = glug_resolution(t);
+    struct glug_timer *t = glug_timer_create();
+    glug_time_t res = glug_timer_resolution(t);
     char ctrl = '\0';
 
     cout << "timer resolution: " << res << endl;
@@ -29,22 +29,22 @@ int main(int, char **)
         switch (ctrl)
         {
         case 's':
-            glug_start_timer(t);
+            glug_timer_start(t);
             break;
         case 'p':
-            glug_pause_timer(t);
+            glug_timer_pause(t);
             break;
         case 'r':
-            glug_reset_timer(t);
+            glug_timer_reset(t);
             break;
         case 't':
-            cout << "total run time: " << glug_msec_from_time(glug_running_time(t)) << "ms" << endl;
+            cout << "total run time: " << glug_msec_from_time(glug_timer_run_time(t)) << "ms" << endl;
             break;
         case 'l':
-            cout << "split: " << glug_msec_from_time(glug_split(t))  << "ms" << endl;
+            cout << "split: " << glug_msec_from_time(glug_timer_split(t))  << "ms" << endl;
             break;
         case 'c':
-            cout << "split: " << glug_msec_from_time(glug_split_cont(t)) << "ms" << endl;
+            cout << "split: " << glug_msec_from_time(glug_timer_split_cont(t)) << "ms" << endl;
             break;
         }
     }

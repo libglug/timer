@@ -13,19 +13,19 @@ static void clear_timer(struct glug_timer *timer)
     timer->pause_split = timer->pause_total = 0;
 }
 
-struct glug_timer GLUG_LIB_API *glug_create_timer()
+struct glug_timer GLUG_LIB_API *glug_timer_create()
 {
     struct glug_timer *timer = malloc(sizeof(struct glug_timer));
     timer->state = glug_ts_stopped;
     return timer;
 }
 
-void GLUG_LIB_API glug_dispose_timer(struct glug_timer *timer)
+void GLUG_LIB_API glug_timer_dispose(struct glug_timer *timer)
 {
     free(timer);
 }
 
-void GLUG_LIB_API glug_start_timer(struct glug_timer *timer)
+void GLUG_LIB_API glug_timer_start(struct glug_timer *timer)
 {
     switch(timer->state)
     {
@@ -46,7 +46,7 @@ void GLUG_LIB_API glug_start_timer(struct glug_timer *timer)
     timer->state = glug_ts_running;
 }
 
-void GLUG_LIB_API glug_pause_timer(struct glug_timer *timer)
+void GLUG_LIB_API glug_timer_pause(struct glug_timer *timer)
 {
     if (timer->state == glug_ts_running)
     {
@@ -55,7 +55,7 @@ void GLUG_LIB_API glug_pause_timer(struct glug_timer *timer)
     }
 }
 
-void GLUG_LIB_API glug_reset_timer(struct glug_timer *timer)
+void GLUG_LIB_API glug_timer_reset(struct glug_timer *timer)
 {
     clear_timer(timer);
 
@@ -63,7 +63,7 @@ void GLUG_LIB_API glug_reset_timer(struct glug_timer *timer)
         timer->state = glug_ts_stopped;
 }
 
-glug_time_t GLUG_LIB_API glug_split(struct glug_timer *timer)
+glug_time_t GLUG_LIB_API glug_timer_split(struct glug_timer *timer)
 {
     glug_time_t split;
     switch(timer->state)
@@ -88,7 +88,7 @@ glug_time_t GLUG_LIB_API glug_split(struct glug_timer *timer)
     return clock_to_nsec(split);
 }
 
-glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
+glug_time_t GLUG_LIB_API glug_timer_split_cont(const struct glug_timer *timer)
 {
     glug_time_t split;
     switch(timer->state)
@@ -107,7 +107,7 @@ glug_time_t GLUG_LIB_API glug_split_cont(const struct glug_timer *timer)
     return clock_to_nsec(split);
 }
 
-glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
+glug_time_t GLUG_LIB_API glug_timer_run_time(const struct glug_timer *timer)
 {
     glug_time_t run_time;
     switch(timer->state)
@@ -126,7 +126,7 @@ glug_time_t GLUG_LIB_API glug_running_time(const struct glug_timer *timer)
     return clock_to_nsec(run_time);
 }
 
-glug_time_t GLUG_LIB_API glug_resolution(const struct glug_timer *timer)
+glug_time_t GLUG_LIB_API glug_timer_resolution(const struct glug_timer *timer)
 {
     (void) timer;
     return clock_res();
