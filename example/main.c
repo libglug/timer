@@ -21,11 +21,12 @@ int main(int argc, char **argv)
     glug_time_t res = glug_resolution(t);
     int ctrl = 0;
 
-    printf("timer resolution: %lld\n", res);
+    printf("timer resolution: %lud\n", res);
 
-    print_controls();
-    while((ctrl = getchar()) != 'q')
+    while(ctrl != 'q')
     {
+        print_controls();
+        ctrl = getchar();
         while(getchar() != '\n'); // flush input
         switch (ctrl)
         {
@@ -48,7 +49,6 @@ int main(int argc, char **argv)
             printf("split: %.2lfms\n", glug_msec_from_time(glug_split_cont(t)));
             break;
         }
-        print_controls();
     }
 
     return 0;
