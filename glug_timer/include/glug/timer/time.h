@@ -8,13 +8,13 @@
 
 GLUG_EXTERN_START
 
-glug_time_t GLUG_LIB_API    glug_time_from_sec (double secs);
-glug_time_t GLUG_LIB_API    glug_time_from_msec(double msecs);
-glug_time_t GLUG_LIB_API    glug_time_from_usec(double usecs);
+GLUG_LIB_API glug_time_t glug_time_from_sec (double secs);
+GLUG_LIB_API glug_time_t glug_time_from_msec(double msecs);
+GLUG_LIB_API glug_time_t glug_time_from_usec(double usecs);
 
-double      GLUG_LIB_API    glug_sec_from_time (glug_time_t);
-double      GLUG_LIB_API    glug_msec_from_time(glug_time_t);
-double      GLUG_LIB_API    glug_usec_from_time(glug_time_t);
+GLUG_LIB_API double      glug_sec_from_time (glug_time_t);
+GLUG_LIB_API double      glug_msec_from_time(glug_time_t);
+GLUG_LIB_API double      glug_usec_from_time(glug_time_t);
 
 GLUG_EXTERN_END
 
