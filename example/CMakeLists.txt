@@ -12,7 +12,7 @@ add_example(
     TARGET_NAME
         ${GLUG_TARGET_NAME}
     SRC
-        main.c
+        c/main.c
     LINK_LIBS
         ${LIB}
 )
@@ -23,8 +23,8 @@ add_example(
     INSTALL_PATH
         ${INSTALL_PATH}
     SRC
-        main.cpp
-        timer.hpp timer.cpp
+        c++/main.cpp
+        c++/timer.hpp c++/timer.cpp
     LINK_LIBS
         ${LIB}
 )
