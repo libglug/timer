@@ -11,32 +11,20 @@ set(INSTALL_PATH example)
 add_example(
     TARGET_NAME
         ${GLUG_TARGET_NAME}
-    SRCS
+    SRC
         main.c
-    LINK_LIB
+    LINK_LIBS
         ${LIB}
 )
 
 add_example(
     TARGET_NAME
         ${GLUG_TARGET_NAME++}
-    SRCS
+    INSTALL_PATH
+        ${INSTALL_PATH}
+    SRC
         main.cpp
-    LINK_LIB
+        timer.hpp timer.cpp
+    LINK_LIBS
         ${LIB}
 )
-
-install(
-    TARGETS
-        ${GLUG_TARGET_NAME}
-    DESTINATION
-        ${INSTALL_PATH}
-)
-
-install(
-    TARGETS
-        ${GLUG_TARGET_NAME++}
-    DESTINATION
-        ${INSTALL_PATH}
-)
-

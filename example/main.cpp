@@ -1,52 +1,49 @@
-#include <glug/timer/timer.h>
-#include <glug/timer/time.h>
-
 #include <iostream>
-
-using namespace std;
+#include "timer.hpp"
 
 void print_controls()
 {
-    cout << "--------------------------------" << endl;
-    cout << "s: start\np: pause\nr: reset" << endl;
-    cout << "t: print elapsed" << endl;
-    cout << "l: print split\nc: print split and continue" << endl;
-    cout << "enter selection: " << flush;
+    std::cout << "--------------------------------" << std::endl <<
+                 "s: start\np: pause\nr: reset" << std::endl <<
+                 "t: print elapsed" << std::endl <<
+                 "l: print split\nc: print split and continue" << std::endl <<
+                 "enter selection: " << std::flush;
 }
 
 int main(int, char **)
 {
-    struct glug_timer *t = glug_timer_create();
-    glug_time_t res = glug_timer_resolution(t);
+    glug::timer t;
+
+    std::cout << "timer resolution: " << glug::timer::resolution() << std::endl;
+    print_controls();
+
     char ctrl = '\0';
-
-    cout << "timer resolution: " << res << endl;
-
     while(ctrl != 'q')
     {
-        print_controls();
-        cin >> ctrl;
+        std::cin >> ctrl;
+
         switch (ctrl)
         {
         case 's':
-            glug_timer_start(t);
+            t.start();
             break;
         case 'p':
-            glug_timer_pause(t);
+            t.pause();
             break;
         case 'r':
-            glug_timer_reset(t);
+            t.reset();
             break;
         case 't':
-            cout << "total run time: " << glug_msec_from_time(glug_timer_run_time(t)) << "ms" << endl;
+            std::cout << "total run time: " << glug_msec_from_time(t.duration()) << "ms" << std::endl;
             break;
         case 'l':
-            cout << "split: " << glug_msec_from_time(glug_timer_split(t))  << "ms" << endl;
+            std::cout << "split: " << glug_msec_from_time(t.split()) << "ms" << std::endl;
             break;
         case 'c':
-            cout << "split: " << glug_msec_from_time(glug_timer_split_cont(t)) << "ms" << endl;
+            std::cout << "split: " << glug_msec_from_time(t.split_cont()) << "ms" << std::endl;
             break;
         }
+        print_controls();
     }
 
     return 0;

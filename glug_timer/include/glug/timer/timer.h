@@ -25,7 +25,7 @@ GLUG_LIB_API glug_time_t            glug_timer_split_cont(const struct glug_time
 GLUG_LIB_API glug_time_t            glug_timer_run_time(const struct glug_timer *);
 
 // state
-GLUG_LIB_API glug_time_t            glug_timer_resolution(const struct glug_timer *);
+GLUG_LIB_API glug_time_t            glug_timer_resolution(void);
 GLUG_LIB_API enum glug_timer_state  glug_timer_state(const struct glug_timer *);
 
 GLUG_EXTERN_END
