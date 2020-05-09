@@ -1,16 +1,22 @@
 #include "timer.hpp"
+#include <stdlib.h>
 
 namespace glug
 {
 
 timer::timer()
 {
-    glug_timer = glug_timer_create();
+    struct glug_allocator alloc =
+    {
+        .malloc = malloc,
+        .free = free
+    };
+    glug_timer_alloc(&glug_timer, &alloc);
 }
 
 timer::~timer()
 {
-    glug_timer_dispose(glug_timer);
+    glug_timer_free(&glug_timer);
 }
 
 void timer::start()

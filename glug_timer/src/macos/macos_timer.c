@@ -14,7 +14,7 @@ static mach_timebase_info_data_t clock_frequency()
 
 uint64_t GLUG_LIB_LOCAL read_clock()
 {
-    return mach_absolute_time();
+    return mach_continuous_time();
 }
 
 uint64_t GLUG_LIB_LOCAL clock_to_nsec(uint64_t clock)
