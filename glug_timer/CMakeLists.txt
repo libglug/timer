@@ -15,6 +15,7 @@ set(INC_ROOT include/glug)
 list(
     APPEND
     COMMON_SOURCE
+    ${COM_ROOT}/allocator_t.h
     ${COM_ROOT}/bool.h
     ${COM_ROOT}/extern.h
     ${COM_ROOT}/import.h

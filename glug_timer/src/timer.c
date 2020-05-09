@@ -3,8 +3,6 @@
 #include "timer.h"
 #include "timer_platform.h"
 
-#include <stdlib.h>
-
 static void clear_timer(struct glug_timer *timer)
 {
     timer->start_clock = read_clock();
@@ -13,16 +11,17 @@ static void clear_timer(struct glug_timer *timer)
     timer->pause_split = timer->pause_total = 0;
 }
 
-struct glug_timer *glug_timer_create(void)
+void glug_timer_alloc(struct glug_timer **timer, struct glug_allocator *alloc)
 {
-    struct glug_timer *timer = malloc(sizeof(struct glug_timer));
-    timer->state = glug_ts_stopped;
-    return timer;
+    *timer = alloc->malloc(sizeof(struct glug_timer));
+    (*timer)->free = alloc->free;
+    (*timer)->state = glug_ts_stopped;
 }
 
-void glug_timer_dispose(struct glug_timer *timer)
+void glug_timer_free(struct glug_timer **timer)
 {
-    free(timer);
+    (*timer)->free(*timer);
+    *timer = NULL;
 }
 
 void glug_timer_start(struct glug_timer *timer)

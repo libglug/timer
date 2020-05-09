@@ -1,6 +1,7 @@
 #include <glug/timer/timer.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void print_controls()
 {
@@ -21,10 +22,16 @@ int main(int argc, char **argv)
     (void) argc;
     (void) argv;
 
-    struct glug_timer *t = glug_timer_create();
+    struct glug_timer *t;
     glug_time_t res = glug_timer_resolution();
     int ctrl = 0;
+    struct glug_allocator alloc =
+    {
+        malloc,
+        free
+    };
 
+    glug_timer_alloc(&t, &alloc);
     printf("timer resolution: %llu\n", res);
 
     while(ctrl != 'q')
