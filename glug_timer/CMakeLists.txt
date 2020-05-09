@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 set(VER_MAJOR 1)
 set(VER_MINOR 0)
 set(VER_PATCH 0)
-project({LIB_NAME} VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
+project(glug_timer VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
 include(cmake/add_gluglib.cmake)
 
 option(BUILD_STATIC "Build as a static library instead of shared" OFF)
@@ -58,7 +58,7 @@ list(
 )
 
 add_gluglib(
-    TARGET_NAME ${CMAKE_PROJECT_NAME}
+    TARGET_NAME ${PROJECT_NAME}
     STATIC_BUILD ${BUILD_STATIC}
     WIN32_SOURCE ${WIN32_SOURCE}
     MACOS_SOURCE ${MACOS_SOURCE}
@@ -69,7 +69,7 @@ add_gluglib(
 )
 
 target_include_directories(
-    ${CMAKE_PROJECT_NAME}
+    ${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common_headers/include>
@@ -80,9 +80,9 @@ target_include_directories(
 # install the library
 install(
     TARGETS
-        ${CMAKE_PROJECT_NAME}
+        ${PROJECT_NAME}
     EXPORT
-        Find${CMAKE_PROJECT_NAME}
+        Find${PROJECT_NAME}
     DESTINATION
         lib
 )
@@ -106,18 +106,18 @@ install(
 )
 
 # export the package to be included in other projects
-export(PACKAGE ${CMAKE_PROJECT_NAME})
+export(PACKAGE ${PROJECT_NAME})
 export(
     TARGETS
-        ${CMAKE_PROJECT_NAME}
+        ${PROJECT_NAME}
     FILE
-        ${CMAKE_PROJECT_NAME}-config.cmake
+        ${PROJECT_NAME}-config.cmake
 )
 
 # install export file
 install(
     EXPORT
-        Find${CMAKE_PROJECT_NAME}
+        Find${PROJECT_NAME}
     DESTINATION
         cmake
 )
