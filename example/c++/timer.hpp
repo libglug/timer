@@ -2,7 +2,6 @@
 #define GLUG_TIMER_HPP
 
 #include <glug/timer/timer.h>
-#include <glug/timer/time.h>
 #include <glug/timer/timer_state.h>
 
 namespace glug
@@ -18,8 +17,8 @@ public:
     void pause();
     void reset();
 
-    glug_time_t split();
-    glug_time_t split_cont() const;
+    glug_time_t split_reset();
+    glug_time_t split() const;
 
     glug_time_t duration() const;
     enum glug_timer_state state() const;

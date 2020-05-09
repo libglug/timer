@@ -18,8 +18,8 @@ GLUG_LIB_API void                   glug_timer_pause(struct glug_timer *);
 GLUG_LIB_API void                   glug_timer_reset(struct glug_timer *);
 
 // deltas
-GLUG_LIB_API glug_time_t            glug_timer_split(struct glug_timer *);
-GLUG_LIB_API glug_time_t            glug_timer_split_cont(const struct glug_timer *);
+GLUG_LIB_API glug_time_t            glug_timer_split_reset(struct glug_timer *);
+GLUG_LIB_API glug_time_t            glug_timer_split(const struct glug_timer *);
 
 // totals
 GLUG_LIB_API glug_time_t            glug_timer_run_time(const struct glug_timer *);

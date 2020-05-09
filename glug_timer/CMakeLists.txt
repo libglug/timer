@@ -6,24 +6,31 @@ set(VER_PATCH 0)
 project({LIB_NAME} VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
 include(cmake/add_gluglib.cmake)
 
-option(BUILD_STATIC "Build as a static library instead of shared" "OFF")
+option(BUILD_STATIC "Build as a static library instead of shared" OFF)
 
+set(COM_ROOT common_headers/include/glug)
 set(SRC_ROOT src)
 set(INC_ROOT include/glug)
 
 list(
     APPEND
     COMMON_SOURCE
+    ${COM_ROOT}/bool.h
+    ${COM_ROOT}/extern.h
+    ${COM_ROOT}/import.h
+    ${COM_ROOT}/namespace.h
+    ${COM_ROOT}/os.h
+    ${COM_ROOT}/params.h
     ${INC_ROOT}/timer.h
-    ${INC_ROOT}/timer/time.h
     ${INC_ROOT}/timer/time_t.h
+    ${INC_ROOT}/timer/timer_t.h
     ${INC_ROOT}/timer/timer.h
     ${INC_ROOT}/timer/timer_state.h
-    ${SRC_ROOT}/time.c
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/timer_platform.h
-    ${SRC_ROOT}/safe_clock_scale.c)
+    ${SRC_ROOT}/safe_clock_scale.c
+)
 
 # Windows sources
 list(
@@ -113,4 +120,3 @@ install(
     DESTINATION
         cmake
 )
-

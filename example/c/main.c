@@ -1,5 +1,4 @@
 #include <glug/timer/timer.h>
-#include <glug/timer/time.h>
 
 #include <stdio.h>
 
@@ -12,6 +11,11 @@ void print_controls()
     printf("enter selection: ");
 }
 
+double msec_from_glug_time(glug_time_t time)
+{
+    return time / 1000.0 / 1000.0;
+}
+
 int main(int argc, char **argv)
 {
     (void) argc;
@@ -21,13 +25,13 @@ int main(int argc, char **argv)
     glug_time_t res = glug_timer_resolution();
     int ctrl = 0;
 
-    printf("timer resolution: %lld\n", res);
+    printf("timer resolution: %llu\n", res);
 
     while(ctrl != 'q')
     {
         print_controls();
         ctrl = getchar();
-        while(getchar() != '\n'); // flush input
+        while (getchar() != '\n'); // flush input
         switch (ctrl)
         {
         case 's':
@@ -40,13 +44,13 @@ int main(int argc, char **argv)
             glug_timer_reset(t);
             break;
         case 't':
-            printf("total run time: %.3lfms\n", glug_msec_from_time(glug_timer_run_time(t)));
+            printf("total run time: %.3fms\n", msec_from_glug_time(glug_timer_run_time(t)));
             break;
         case 'l':
-            printf("split: %.3lfms\n", glug_msec_from_time(glug_timer_split(t)));
+            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_split_reset(t)));
             break;
         case 'c':
-            printf("split: %.3lfms\n", glug_msec_from_time(glug_timer_split_cont(t)));
+            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_split(t)));
             break;
         }
     }
