@@ -16,7 +16,7 @@ endmacro()
 add_subdirectory(${GLUG_LIB_TARGET})
 
 # build and install examples
-if (${BUILD_XMPLS} STREQUAL "ON")
+if (${BUILD_XMPLS})
     add_subdirectory(example)
 
     # copy the glug lib to the example build dir if it's shared
