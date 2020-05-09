@@ -10,6 +10,11 @@ void print_controls()
                  "enter selection: " << std::flush;
 }
 
+double msec_from_glug_time(glug_time_t time)
+{
+    return time / 1000.0 / 1000.0;
+}
+
 int main(int, char **)
 {
     glug::timer t;
@@ -18,10 +23,10 @@ int main(int, char **)
     print_controls();
 
     char ctrl = '\0';
-    while(ctrl != 'q')
-    {
-        std::cin >> ctrl;
+    std::cin >> ctrl;
 
+    while (ctrl != 'q')
+    {
         switch (ctrl)
         {
         case 's':
@@ -34,16 +39,18 @@ int main(int, char **)
             t.reset();
             break;
         case 't':
-            std::cout << "total run time: " << glug_msec_from_time(t.duration()) << "ms" << std::endl;
+            std::cout << "total run time: " << msec_from_glug_time(t.duration()) << "ms" << std::endl;
             break;
         case 'l':
-            std::cout << "split: " << glug_msec_from_time(t.split()) << "ms" << std::endl;
+            std::cout << "split: " << msec_from_glug_time(t.split_reset()) << "ms" << std::endl;
             break;
         case 'c':
-            std::cout << "split: " << glug_msec_from_time(t.split_cont()) << "ms" << std::endl;
+            std::cout << "split: " << msec_from_glug_time(t.split())<< "ms" << std::endl;
             break;
         }
+
         print_controls();
+        std::cin >> ctrl;
     }
 
     return 0;

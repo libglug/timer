@@ -63,7 +63,7 @@ void glug_timer_reset(struct glug_timer *timer)
         timer->state = glug_ts_stopped;
 }
 
-glug_time_t glug_timer_split(struct glug_timer *timer)
+glug_time_t glug_timer_split_reset(struct glug_timer *timer)
 {
     glug_time_t split;
     switch(timer->state)
@@ -88,7 +88,7 @@ glug_time_t glug_timer_split(struct glug_timer *timer)
     return clock_to_nsec(split);
 }
 
-glug_time_t glug_timer_split_cont(const struct glug_timer *timer)
+glug_time_t glug_timer_split(const struct glug_timer *timer)
 {
     glug_time_t split;
     switch(timer->state)

@@ -28,14 +28,14 @@ void timer::reset()
     glug_timer_reset(glug_timer);
 }
 
-glug_time_t timer::split()
+glug_time_t timer::split_reset()
 {
-    return glug_timer_split(glug_timer);
+    return glug_timer_split_reset(glug_timer);
 }
 
-glug_time_t timer::split_cont() const
+glug_time_t timer::split() const
 {
-    return glug_timer_split_cont(glug_timer);
+    return glug_timer_split(glug_timer);
 }
 
 glug_time_t timer::duration() const
