@@ -30,6 +30,7 @@ list(
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/timer_platform.h
+    ${SRC_ROOT}/safe_clock_scale.h
     ${SRC_ROOT}/safe_clock_scale.c
 )
 
@@ -46,7 +47,9 @@ list(
     APPEND
     MACOS_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/macos/macos_timer.c
+    ${SRC_ROOT}/timer_bridge_macos.c
+    ${SRC_ROOT}/mach/mach.h
+    ${SRC_ROOT}/mach/mach.c
 )
 
 # linux sources

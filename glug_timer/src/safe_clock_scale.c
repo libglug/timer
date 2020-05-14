@@ -1,6 +1,8 @@
+#include "safe_clock_scale.h"
+
 #include <stdint.h>
 
-uint64_t GLUG_LIB_LOCAL safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom)
+uint64_t safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom)
 {
     // split 'clock' into high, low, and carry 32-bit blocks
     uint64_t high = (clock >> 32) * numer;

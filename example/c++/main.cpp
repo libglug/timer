@@ -4,9 +4,11 @@
 void print_controls()
 {
     std::cout << "--------------------------------" << std::endl <<
-                 "s: start\np: pause\nr: reset" << std::endl <<
+                 "s: start\np: pause" << std::endl <<
+                 "r: reset" << std::endl <<
                  "t: print elapsed" << std::endl <<
-                 "l: print split\nc: print split and continue" << std::endl <<
+                 "l: print split" << std::endl <<
+                 "c: print split and continue" << std::endl <<
                  "enter selection: " << std::flush;
 }
 
