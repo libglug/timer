@@ -39,7 +39,9 @@ list(
     APPEND
     WIN32_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/win32/win32_timer.c
+    ${SRC_ROOT}/timer_bridge_win32.c
+    ${SRC_ROOT}/qpc/qpc.h
+    ${SRC_ROOT}/qpc/qpc.c
 )
 
 # Mac OS sources
