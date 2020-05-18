@@ -57,7 +57,9 @@ list(
     APPEND
     LINUX_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/linux/linux_timer.c
+    ${SRC_ROOT}/timer_bridge_linux.c
+    ${SRC_ROOT}/clock/clock.h
+    ${SRC_ROOT}/clock/clock.c
 )
 
 add_gluglib(
