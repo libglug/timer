@@ -2,8 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
-void print_controls()
+void print_controls(void)
 {
     printf("--------------------------------\n");
     printf("s: start\np: pause\nr: reset\n");
@@ -31,7 +32,7 @@ int main(int argc, char **argv)
     struct glug_timer *t;
     glug_timer_alloc(&t, &alloc);
 
-    printf("timer resolution: %llu\n", glug_timer_resolution());
+    printf("timer resolution: %"PRIu64"\n", glug_timer_resolution());
 
     int ctrl = 0;
     while(ctrl != 'q')
