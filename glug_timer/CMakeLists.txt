@@ -30,6 +30,7 @@ list(
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/timer_platform.h
+    ${SRC_ROOT}/safe_clock_scale.h
     ${SRC_ROOT}/safe_clock_scale.c
 )
 
@@ -38,7 +39,9 @@ list(
     APPEND
     WIN32_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/win32/win32_timer.c
+    ${SRC_ROOT}/timer_bridge_win32.c
+    ${SRC_ROOT}/qpc/qpc.h
+    ${SRC_ROOT}/qpc/qpc.c
 )
 
 # Mac OS sources
@@ -46,7 +49,9 @@ list(
     APPEND
     MACOS_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/macos/macos_timer.c
+    ${SRC_ROOT}/timer_bridge_macos.c
+    ${SRC_ROOT}/mach/mach.h
+    ${SRC_ROOT}/mach/mach.c
 )
 
 # linux sources
@@ -54,7 +59,9 @@ list(
     APPEND
     LINUX_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/linux/linux_timer.c
+    ${SRC_ROOT}/timer_bridge_linux.c
+    ${SRC_ROOT}/clock/clock.h
+    ${SRC_ROOT}/clock/clock.c
 )
 
 add_gluglib(

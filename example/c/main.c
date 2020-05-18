@@ -22,18 +22,18 @@ int main(int argc, char **argv)
     (void) argc;
     (void) argv;
 
-    struct glug_timer *t;
-    glug_time_t res = glug_timer_resolution();
-    int ctrl = 0;
     struct glug_allocator alloc =
     {
         malloc,
         free
     };
 
+    struct glug_timer *t;
     glug_timer_alloc(&t, &alloc);
-    printf("timer resolution: %llu\n", res);
 
+    printf("timer resolution: %llu\n", glug_timer_resolution());
+
+    int ctrl = 0;
     while(ctrl != 'q')
     {
         print_controls();

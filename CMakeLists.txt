@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 cmake_policy(SET CMP0054 NEW)
-project(glug_timer_suite)
-
 set(GLUG_LIB_TARGET glug_timer)
+project(${GLUG_LIB_TARGET}_suite)
 
-option(BUILD_XMPLS "Build (and install) the examples" OFF)
+option(BUILD_XMPLS "Build the examples?" OFF)
 
 # disable find_package in any subproject for finding this lib
 macro(find_package)
