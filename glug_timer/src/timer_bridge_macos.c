@@ -1,4 +1,8 @@
 #include "timer_platform.h"
+#include <glug/os.h>
+
+#if GLUG_OS == GLUG_OS_MAC
+
 #include "mach/mach.h"
 #include "safe_clock_scale.h"
 
@@ -20,3 +24,5 @@ uint64_t clock_res(void)
     tick_scale(&timebase);
     return timebase.numer / timebase.denom;
 }
+
+#endif // GLUG_OS == GLUG_OS_MAC

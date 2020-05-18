@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-GLUG_LIB_LOCAL void get_time(struct timespec *);
-GLUG_LIB_LOCAL void get_res (struct timespec *);
+GLUG_LIB_LOCAL void get_time(clockid_t, struct timespec *);
+GLUG_LIB_LOCAL void get_res (clockid_t, struct timespec *);
 
 #endif // GLUG_CLOCK_H

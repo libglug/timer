@@ -2,12 +2,12 @@
 
 #include <time.h>
 
-void get_time(struct timespec *time)
+void get_time(clockid_t clock, struct timespec *time)
 {
-    clock_gettime(CLOCK_MONOTONIC_RAW, time);
+    clock_gettime(clock, time);
 }
 
-void get_res(struct timespec *res)
+void get_res(clockid_t clock, struct timespec *res)
 {
-    clock_getres(CLOCK_MONOTONIC_RAW, res);
+    clock_getres(clock, res);
 }
