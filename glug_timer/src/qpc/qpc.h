@@ -1,11 +1,9 @@
 #ifndef GLUG_QPC_H
 #define GLUG_QPC_H
 
-#define VC_EXTRALEAN
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <stdint.h>
 
-GLUG_LIB_LOCAL void query_frequency(LARGE_INTEGER *);
-GLUG_LIB_LOCAL void query_counter(LARGE_INTEGER *);
+GLUG_LIB_LOCAL uint64_t query_frequency(void);
+GLUG_LIB_LOCAL uint64_t query_counter(void);
 
 #endif // GLUG_QPC_H

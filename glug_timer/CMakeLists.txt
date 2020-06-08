@@ -31,11 +31,6 @@ list(
     ${SRC_ROOT}/timer_platform.h
     ${SRC_ROOT}/safe_clock_scale.h
     ${SRC_ROOT}/safe_clock_scale.c
-    ${SRC_ROOT}/timer_bridge_null.c
-    ${SRC_ROOT}/timer_bridge_win32.c
-    ${SRC_ROOT}/timer_bridge_macos.c
-    ${SRC_ROOT}/timer_bridge_linux.c
-    ${SRC_ROOT}/timer_bridge_bsd.c
 )
 
 # Windows sources
@@ -43,6 +38,7 @@ list(
     APPEND
     WIN32_SOURCE
     ${COMMON_SOURCE}
+    ${SRC_ROOT}/timer_bridge_win32.c
     ${SRC_ROOT}/qpc/qpc.h
     ${SRC_ROOT}/qpc/qpc.c
 )
@@ -52,6 +48,7 @@ list(
     APPEND
     MACOS_SOURCE
     ${COMMON_SOURCE}
+    ${SRC_ROOT}/timer_bridge_macos.c
     ${SRC_ROOT}/mach/mach.h
     ${SRC_ROOT}/mach/mach.c
 )
@@ -61,6 +58,7 @@ list(
     APPEND
     LINUX_SOURCE
     ${COMMON_SOURCE}
+    ${SRC_ROOT}/timer_bridge_linux.c
     ${SRC_ROOT}/clock/clock.h
     ${SRC_ROOT}/clock/clock.c
 )
@@ -70,6 +68,7 @@ list(
     APPEND
     BSD_SOURCE
     ${COMMON_SOURCE}
+    ${SRC_ROOT}/timer_bridge_bsd.c
     ${SRC_ROOT}/clock/clock.h
     ${SRC_ROOT}/clock/clock.c
 )
