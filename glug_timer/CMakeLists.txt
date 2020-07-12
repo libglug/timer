@@ -19,7 +19,6 @@ list(
     ${COM_ROOT}/bool.h
     ${COM_ROOT}/extern.h
     ${COM_ROOT}/import.h
-    ${COM_ROOT}/namespace.h
     ${COM_ROOT}/os.h
     ${COM_ROOT}/params.h
     ${INC_ROOT}/timer.h
