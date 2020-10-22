@@ -2,19 +2,15 @@
 #include <glug/os.h>
 
 #include "mach/mach.h"
-#include "safe_clock_scale.h"
 
-uint64_t read_clock(void)
+uint64_t read_clock_ticks(void)
 {
     return continuous_ticks();
 }
 
-uint64_t clock_to_nsec(uint64_t clock)
+void ticks_per_sec(frac_t *tps)
 {
-    frac_t timebase;
-    tick_scale(&timebase);
-
-    return safe_clock_scale(clock, timebase.numer, timebase.denom);
+    tick_scale(tps);
 }
 
 uint64_t clock_res(void)

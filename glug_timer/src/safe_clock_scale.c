@@ -2,16 +2,16 @@
 
 #include <stdint.h>
 
-uint64_t safe_clock_scale(uint64_t clock, uint64_t numer, uint64_t denom)
+uint64_t safe_clock_scale(uint64_t clock, const frac_t *scale)
 {
     // split 'clock' into high, low, and carry 32-bit blocks
-    uint64_t high = (clock >> 32) * numer;
-    uint64_t low = (clock & 0xffffffffull) * numer;
-    uint64_t carry = (high % denom) << 32;
+    uint64_t high = (clock >> 32) * scale->numer;
+    uint64_t low = (clock & 0xffffffffull) * scale->numer;
+    uint64_t carry = (high % scale->denom) << 32;
 
-    high  /= denom;
-    low   /= denom;
-    carry /= denom;
+    high  /= scale->denom;
+    low   /= scale->denom;
+    carry /= scale->denom;
 
     return (high << 32) + carry + low;
 }
