@@ -12,7 +12,11 @@ uint64_t absolute_ticks(void)
     return mach_absolute_time();
 }
 
-void tick_scale(mach_timebase_info_data_t *tick_scale)
+void tick_scale(frac_t *tick_scale)
 {
-    mach_timebase_info(tick_scale);
+    mach_timebase_info_data_t scale;
+    mach_timebase_info(&scale);
+
+    tick_scale->numer = scale.numer;
+    tick_scale->denom = scale.denom;
 }

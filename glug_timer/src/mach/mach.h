@@ -2,11 +2,16 @@
 #define GLUG_MACH_H
 
 #include <stdint.h>
-#include <mach/mach_time.h>
+
+typedef struct
+{
+    uint32_t numer;
+    uint32_t denom;
+} frac_t;
 
 GLUG_LIB_LOCAL uint64_t continuous_ticks(void);
 GLUG_LIB_LOCAL uint64_t absolute_ticks(void);
 
-GLUG_LIB_LOCAL void     tick_scale(mach_timebase_info_data_t *);
+GLUG_LIB_LOCAL void     tick_scale(frac_t *);
 
 #endif // GLUG_MACH_H
