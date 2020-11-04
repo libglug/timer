@@ -25,7 +25,7 @@ public:
     static glug_time_t resolution();
 
 private:
-    glug_timer *glug_timer;
+    glug_timer *glug_timer_impl;
 };
 
 } // namespace glug

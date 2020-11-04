@@ -5,7 +5,7 @@
 
 #define NSEC_PER_SEC 1000ULL * 1000 * 1000
 
-uint64_t read_clock(void)
+uint64_t read_clock_ticks(void)
 {
     nstime_t clock;
     get_time(MONOTONIC, &clock);
@@ -13,9 +13,10 @@ uint64_t read_clock(void)
     return (uint64_t)clock.nsec + (uint64_t)clock.sec * NSEC_PER_SEC;
 }
 
-uint64_t clock_to_nsec(uint64_t clock)
+void ticks_per_sec(frac_t *tps)
 {
-    return clock;
+    tps->numer = 1;
+    tps->denom = 1;
 }
 
 uint64_t clock_res(void)

@@ -6,7 +6,7 @@
 #if GLUG_OS == GLUG_OS_LIN
 static const clockid_t clock_ids[2] = { CLOCK_MONOTONIC_RAW, CLOCK_BOOTTIME };
 #elif GLUG_OS == GLUG_OS_BSD
-static const clockid_t clock_ids[2] = { CLOCK_MONOTONIC, CLOCK_UPTIME }
+static const clockid_t clock_ids[2] = { CLOCK_MONOTONIC, CLOCK_UPTIME };
 #endif
 
 void get_time(clock_type_t clock_type, nstime_t *time)

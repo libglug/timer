@@ -28,6 +28,7 @@ list(
     ${INC_ROOT}/timer/timer_state.h
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
+    ${SRC_ROOT}/frac.h
     ${SRC_ROOT}/timer_platform.h
     ${SRC_ROOT}/safe_clock_scale.h
     ${SRC_ROOT}/safe_clock_scale.c
@@ -90,6 +91,8 @@ target_include_directories(
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common_headers/include>
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     INTERFACE
         $<INSTALL_INTERFACE:include>
 )
