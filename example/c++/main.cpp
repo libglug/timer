@@ -23,7 +23,7 @@ int main(int, char **)
     glug::timer t;
 
     glug::time time;
-    glug::timer::resolution(time);
+    t.resolution(time);
     std::cout << "timer resolution: " << time.nsec << "ns" << std::endl;
     print_controls();
 

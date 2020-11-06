@@ -11,21 +11,30 @@
 
 GLUG_EXTERN_START
 
-GLUG_LIB_API void                   glug_timer_alloc(const struct glug_allocator *, struct glug_timer **);
-GLUG_LIB_API void                   glug_timer_free(struct glug_timer **);
+struct glug_itimer
+{
+    void                    (* alloc)(const struct glug_allocator *, struct glug_timer **);
+    void                    (* free)(struct glug_timer **);
 
-// controls
-GLUG_LIB_API void                   glug_timer_start(struct glug_timer *);
-GLUG_LIB_API void                   glug_timer_pause(struct glug_timer *);
-GLUG_LIB_API void                   glug_timer_reset(struct glug_timer *);
+    // controls
+    void                    (* start)(struct glug_timer *);
+    void                    (* pause)(struct glug_timer *);
+    void                    (* reset)(struct glug_timer *);
 
-// read
-GLUG_LIB_API void                   glug_timer_delta(struct glug_timer *, struct glug_time *);
-GLUG_LIB_API void                   glug_timer_run_time(const struct glug_timer *, struct glug_time *);
+    // read
+    void                    (* delta)(struct glug_timer *, struct glug_time *);
+    void                    (* run_time)(struct glug_timer *, struct glug_time *);
 
-// state
-GLUG_LIB_API void                   glug_timer_resolution(struct glug_time *);
-GLUG_LIB_API enum glug_timer_state  glug_timer_state(const struct glug_timer *);
+    // state
+    void                    (* resolution)(struct glug_time *);
+    enum glug_timer_state   (* state)(const struct glug_timer *);
+};
+
+#ifdef GLUG_USE_TYPEDEFS
+    typedef struct glug_itimer   glug_itimer_t;
+#endif
+
+GLUG_LIB_API void glug_itimer_init(struct glug_itimer *);
 
 GLUG_EXTERN_END
 

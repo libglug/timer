@@ -13,9 +13,9 @@ typedef struct
 {
     uint32_t sec;
     uint32_t nsec;
-} nstime_t;
+} clocktime_t;
 
-GLUG_LIB_LOCAL void get_time(clock_type_t, nstime_t *);
-GLUG_LIB_LOCAL void get_res (clock_type_t, nstime_t *);
+GLUG_LIB_LOCAL void get_time(clock_type_t, clocktime_t *);
+GLUG_LIB_LOCAL void get_res (clock_type_t, clocktime_t *);
 
 #endif // GLUG_CLOCK_H

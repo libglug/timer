@@ -23,9 +23,10 @@ public:
     void duration(time &) const;
 
     enum glug_timer_state state() const;
-    static void resolution(time &res);
+    void resolution(time &res);
 
 private:
+    glug_itimer glug_itimer;
     glug_timer *glug_timer_impl;
 };
 

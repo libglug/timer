@@ -87,7 +87,7 @@ void glug_timer_delta(struct glug_timer *timer, struct glug_time *time)
     scale_to_time(&delta, &timer->tick_scale, time);
 }
 
-void glug_timer_run_time(const struct glug_timer *timer, struct glug_time *elapsed)
+void glug_timer_run_time(struct glug_timer *timer, struct glug_time *elapsed)
 {
     uint64_t run_time;
     switch(timer->state)
@@ -126,4 +126,17 @@ static void clear_timer(struct glug_timer *timer)
     timer->pause_clock = timer->start_clock;
     timer->delta_clock = timer->start_clock;
     timer->pause_delta = timer->pause_total = 0;
+}
+
+void glug_itimer_init(struct glug_itimer *itimer)
+{
+    itimer->alloc      = glug_timer_alloc;
+    itimer->free       = glug_timer_free;
+    itimer->start      = glug_timer_start;
+    itimer->pause      = glug_timer_pause;
+    itimer->reset      = glug_timer_reset;
+    itimer->delta      = glug_timer_delta;
+    itimer->run_time   = glug_timer_run_time;
+    itimer->resolution = glug_timer_resolution;
+    itimer->state      = glug_timer_state;
 }
