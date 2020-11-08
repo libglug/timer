@@ -3,13 +3,14 @@
 
 void print_controls()
 {
-    std::cout << "--------------------------------" << std::endl <<
-                 "s: start\np: pause" << std::endl <<
-                 "r: reset" << std::endl <<
-                 "t: print elapsed" << std::endl <<
-                 "l: print split" << std::endl <<
-                 "c: print split and continue" << std::endl <<
-                 "enter selection: " << std::flush;
+    std::cout << "--------------------------------" << std::endl
+              << "s: start" << std:: endl
+              << "p: pause" << std::endl
+              << "r: reset" << std::endl
+              << "d: print delta" << std::endl
+              << "t: print elapsed" << std::endl
+              << "q: quit" << std:: endl
+              << "enter selection: " << std::flush;
 }
 
 double msec_from_glug_time(glug_time_t time)
@@ -43,11 +44,8 @@ int main(int, char **)
         case 't':
             std::cout << "total run time: " << msec_from_glug_time(t.duration()) << "ms" << std::endl;
             break;
-        case 'l':
-            std::cout << "split: " << msec_from_glug_time(t.split_reset()) << "ms" << std::endl;
-            break;
-        case 'c':
-            std::cout << "split: " << msec_from_glug_time(t.split())<< "ms" << std::endl;
+        case 'd':
+            std::cout << "split: " << msec_from_glug_time(t.delta()) << "ms" << std::endl;
             break;
         }
 

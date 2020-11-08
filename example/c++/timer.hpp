@@ -17,10 +17,9 @@ public:
     void pause();
     void reset();
 
-    glug_time_t split_reset();
-    glug_time_t split() const;
-
+    glug_time_t delta();
     glug_time_t duration() const;
+
     enum glug_timer_state state() const;
     static glug_time_t resolution();
 
