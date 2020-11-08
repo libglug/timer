@@ -6,11 +6,7 @@ namespace glug
 
 timer::timer()
 {
-    struct glug_allocator alloc =
-    {
-        .malloc = malloc,
-        .free = free
-    };
+    struct glug_allocator alloc = { malloc, free };
     glug_timer_alloc(&glug_timer_impl, &alloc);
 }
 
@@ -34,14 +30,9 @@ void timer::reset()
     glug_timer_reset(glug_timer_impl);
 }
 
-glug_time_t timer::split_reset()
+glug_time_t timer::delta()
 {
-    return glug_timer_split_reset(glug_timer_impl);
-}
-
-glug_time_t timer::split() const
-{
-    return glug_timer_split(glug_timer_impl);
+    return glug_timer_delta(glug_timer_impl);
 }
 
 glug_time_t timer::duration() const

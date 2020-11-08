@@ -6,11 +6,14 @@
 
 void print_controls(void)
 {
-    printf("--------------------------------\n");
-    printf("s: start\np: pause\nr: reset\n");
-    printf("t: print elapsed\n");
-    printf("l: print split\nc: print split and continue\n");
-    printf("enter selection: ");
+    printf("--------------------------------\n"
+           "s: start\n"
+           "p: pause\n"
+           "r: reset\n"
+           "d: print delta\n"
+           "t: print elapsed\n"
+           "q: quit\n"
+           "enter selection: ");
 }
 
 double msec_from_glug_time(glug_time_t time)
@@ -54,11 +57,8 @@ int main(int argc, char **argv)
         case 't':
             printf("total run time: %.3fms\n", msec_from_glug_time(glug_timer_run_time(t)));
             break;
-        case 'l':
-            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_split_reset(t)));
-            break;
-        case 'c':
-            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_split(t)));
+        case 'd':
+            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_delta(t)));
             break;
         }
     }

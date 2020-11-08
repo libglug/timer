@@ -30,7 +30,7 @@ void glug_timer_start(struct glug_timer *timer)
         case glug_ts_paused:
         {
             glug_time_t pause_dur = read_clock_ticks() - timer->pause_clock;
-            timer->pause_split += pause_dur;
+            timer->pause_delta += pause_dur;
             timer->pause_total += pause_dur;
             break;
         }
@@ -58,48 +58,29 @@ void glug_timer_reset(struct glug_timer *timer)
         timer->state = glug_ts_stopped;
 }
 
-glug_time_t glug_timer_split_reset(struct glug_timer *timer)
+glug_time_t glug_timer_delta(struct glug_timer *timer)
 {
-    glug_time_t split;
+    glug_time_t delta;
     switch(timer->state)
     {
         case glug_ts_stopped:
-            split = 0;
+            delta = 0;
             break;
         case glug_ts_paused:
-            split = timer->pause_clock - timer->split_clock;
-            timer->split_clock = timer->pause_clock;
+            delta = timer->pause_clock - timer->delta_clock;
+            timer->delta_clock = timer->pause_clock;
             break;
         case glug_ts_running:
         {
             uint64_t clock = read_clock_ticks();
-            split = clock - timer->split_clock - timer->pause_split;
-            timer->split_clock = clock;
-            timer->pause_split = 0;
+            delta = clock - timer->delta_clock - timer->pause_delta;
+            timer->delta_clock = clock;
+            timer->pause_delta = 0;
             break;
         }
     }
 
-    return clock_to_nsec(split);
-}
-
-glug_time_t glug_timer_split(const struct glug_timer *timer)
-{
-    glug_time_t split;
-    switch(timer->state)
-    {
-        case glug_ts_stopped:
-            split = 0;
-            break;
-        case glug_ts_paused:
-            split = timer->pause_clock - timer->split_clock;
-            break;
-        case glug_ts_running:
-            split = read_clock_ticks() - timer->split_clock - timer->pause_split;
-            break;
-    }
-
-    return clock_to_nsec(split);
+    return clock_to_nsec(delta);
 }
 
 glug_time_t glug_timer_run_time(const struct glug_timer *timer)
@@ -142,6 +123,6 @@ static void clear_timer(struct glug_timer *timer)
 {
     timer->start_clock = read_clock_ticks();
     timer->pause_clock = timer->start_clock;
-    timer->split_clock = timer->start_clock;
-    timer->pause_split = timer->pause_total = 0;
+    timer->delta_clock = timer->start_clock;
+    timer->pause_delta = timer->pause_total = 0;
 }
