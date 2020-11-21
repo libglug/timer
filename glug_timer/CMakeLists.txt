@@ -30,8 +30,6 @@ list(
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/frac.h
     ${SRC_ROOT}/timer_platform.h
-    ${SRC_ROOT}/safe_clock_scale.h
-    ${SRC_ROOT}/safe_clock_scale.c
 )
 
 # Windows sources

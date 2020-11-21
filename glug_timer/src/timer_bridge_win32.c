@@ -3,7 +3,7 @@
 
 #include "qpc/qpc.h"
 
-#define NSEC_PER_SEC 1000ULL * 1000 * 1000
+#define NSEC_PER_SEC 1000 * 1000 * 1000
 
 uint64_t read_clock_ticks(void)
 {

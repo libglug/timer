@@ -2,9 +2,8 @@
 #include <glug/timer/time_t.h>
 #include "timer.h"
 #include "timer_platform.h"
-#include "safe_clock_scale.h"
 
-static uint64_t clock_to_nsec(uint64_t clock);
+static uint64_t ticks_to_nsec(uint64_t clock);
 static void clear_timer(struct glug_timer *timer);
 
 void glug_timer_alloc(struct glug_timer **timer, struct glug_allocator *alloc)
@@ -80,7 +79,7 @@ glug_time_t glug_timer_delta(struct glug_timer *timer)
         }
     }
 
-    return clock_to_nsec(delta);
+    return ticks_to_nsec(delta);
 }
 
 glug_time_t glug_timer_run_time(const struct glug_timer *timer)
@@ -99,7 +98,7 @@ glug_time_t glug_timer_run_time(const struct glug_timer *timer)
             break;
     }
 
-    return clock_to_nsec(run_time);
+    return ticks_to_nsec(run_time);
 }
 
 glug_time_t glug_timer_resolution(void)
@@ -112,11 +111,12 @@ enum glug_timer_state glug_timer_state(const struct glug_timer *timer)
     return timer->state;
 }
 
-static uint64_t clock_to_nsec(uint64_t clock)
+static uint64_t ticks_to_nsec(uint64_t ticks)
 {
-    frac_t tps = {0};
-    ticks_per_sec(&tps);
-    return safe_clock_scale(clock, &tps);
+    frac_t spt = {0};
+    ticks_per_sec(&spt);
+    double ticks_per_sec = (double)spt.numer / spt.denom;
+    return ticks * ticks_per_sec;
 }
 
 static void clear_timer(struct glug_timer *timer)
