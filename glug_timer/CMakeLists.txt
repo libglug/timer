@@ -30,6 +30,9 @@ list(
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/frac.h
     ${SRC_ROOT}/timer_platform.h
+    ${SRC_ROOT}/tick.h
+    ${SRC_ROOT}/tick.c
+    ${SRC_ROOT}/defs.h
 )
 
 # Windows sources

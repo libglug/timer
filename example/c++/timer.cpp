@@ -30,14 +30,14 @@ void timer::reset()
     glug_timer_reset(glug_timer_impl);
 }
 
-glug_time_t timer::delta()
+void timer::delta(time &delta)
 {
-    return glug_timer_delta(glug_timer_impl);
+    glug_timer_delta(glug_timer_impl, &delta);
 }
 
-glug_time_t timer::duration() const
+void timer::duration(time &run_time) const
 {
-    return glug_timer_run_time(glug_timer_impl);
+    return glug_timer_run_time(glug_timer_impl, &run_time);
 }
 
 enum glug_timer_state timer::state() const
@@ -45,9 +45,9 @@ enum glug_timer_state timer::state() const
     return glug_timer_state(glug_timer_impl);
 }
 
-glug_time_t timer::resolution()
+void timer::resolution(time &res)
 {
-    return glug_timer_resolution();
+    return glug_timer_resolution(&res);
 }
 
 } // namespace glug

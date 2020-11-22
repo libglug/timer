@@ -2,8 +2,10 @@
 #include <glug/timer/time_t.h>
 #include "timer.h"
 #include "timer_platform.h"
+#include "tick.h"
+#include "frac.h"
 
-static uint64_t ticks_to_nsec(uint64_t clock);
+static void ticks_to_nsec(uint64_t clock, struct glug_time *);
 static void clear_timer(struct glug_timer *timer);
 
 void glug_timer_alloc(struct glug_timer **timer, struct glug_allocator *alloc)
@@ -28,7 +30,7 @@ void glug_timer_start(struct glug_timer *timer)
             break;
         case glug_ts_paused:
         {
-            glug_time_t pause_dur = read_clock_ticks() - timer->pause_clock;
+            uint64_t pause_dur = read_clock_ticks() - timer->pause_clock;
             timer->pause_delta += pause_dur;
             timer->pause_total += pause_dur;
             break;
@@ -57,9 +59,9 @@ void glug_timer_reset(struct glug_timer *timer)
         timer->state = glug_ts_stopped;
 }
 
-glug_time_t glug_timer_delta(struct glug_timer *timer)
+void glug_timer_delta(struct glug_timer *timer, struct glug_time *time)
 {
-    glug_time_t delta;
+    uint64_t delta;
     switch(timer->state)
     {
         case glug_ts_stopped:
@@ -79,12 +81,12 @@ glug_time_t glug_timer_delta(struct glug_timer *timer)
         }
     }
 
-    return ticks_to_nsec(delta);
+    return ticks_to_nsec(delta, time);
 }
 
-glug_time_t glug_timer_run_time(const struct glug_timer *timer)
+void glug_timer_run_time(const struct glug_timer *timer, struct glug_time *elapsed)
 {
-    glug_time_t run_time;
+    uint64_t run_time;
     switch(timer->state)
     {
         case glug_ts_stopped:
@@ -98,12 +100,12 @@ glug_time_t glug_timer_run_time(const struct glug_timer *timer)
             break;
     }
 
-    return ticks_to_nsec(run_time);
+    return ticks_to_nsec(run_time, elapsed);
 }
 
-glug_time_t glug_timer_resolution(void)
+void glug_timer_resolution(struct glug_time *res)
 {
-    return clock_res();
+    clock_res(res);
 }
 
 enum glug_timer_state glug_timer_state(const struct glug_timer *timer)
@@ -111,12 +113,12 @@ enum glug_timer_state glug_timer_state(const struct glug_timer *timer)
     return timer->state;
 }
 
-static uint64_t ticks_to_nsec(uint64_t ticks)
+static void ticks_to_nsec(uint64_t ticks, struct glug_time *time)
 {
-    frac_t spt = {0};
-    ticks_per_sec(&spt);
-    double ticks_per_sec = (double)spt.numer / spt.denom;
-    return ticks * ticks_per_sec;
+    frac_t sec_per_tick = {0};
+    secs_per_tick(&sec_per_tick);
+
+    scale_to_time(ticks, &sec_per_tick, time);
 }
 
 static void clear_timer(struct glug_timer *timer)

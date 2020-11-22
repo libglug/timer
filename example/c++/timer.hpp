@@ -7,6 +7,8 @@
 namespace glug
 {
 
+using time = struct glug_time;
+
 class timer
 {
 public:
@@ -17,11 +19,11 @@ public:
     void pause();
     void reset();
 
-    glug_time_t delta();
-    glug_time_t duration() const;
+    void delta(time &);
+    void duration(time &) const;
 
     enum glug_timer_state state() const;
-    static glug_time_t resolution();
+    static void resolution(time &res);
 
 private:
     glug_timer *glug_timer_impl;

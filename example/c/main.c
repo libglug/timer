@@ -16,9 +16,9 @@ void print_controls(void)
            "enter selection: ");
 }
 
-double msec_from_glug_time(glug_time_t time)
+double msec_from_glug_time(struct glug_time *time)
 {
-    return time / 1000.0 / 1000.0;
+    return time->sec * 1000 + time->nsec/ 1000.0 / 1000.0;
 }
 
 int main(int argc, char **argv)
@@ -35,8 +35,13 @@ int main(int argc, char **argv)
     struct glug_timer *t;
     glug_timer_alloc(&t, &alloc);
 
-    printf("timer resolution: %"PRIu64"\n", glug_timer_resolution());
+    struct glug_time res;
+    glug_timer_resolution(&res);
 
+    printf("timer resolution: %"PRIu32"\n", res.nsec);
+
+
+    struct glug_time time;
     int ctrl = 0;
     while(ctrl != 'q')
     {
@@ -55,10 +60,12 @@ int main(int argc, char **argv)
             glug_timer_reset(t);
             break;
         case 't':
-            printf("total run time: %.3fms\n", msec_from_glug_time(glug_timer_run_time(t)));
+            glug_timer_run_time(t, &time);
+            printf("total run time: %.3fms\n", msec_from_glug_time(&time));
             break;
         case 'd':
-            printf("split: %.3fms\n", msec_from_glug_time(glug_timer_delta(t)));
+            glug_timer_delta(t, &time);
+            printf("split: %.3fms\n", msec_from_glug_time(&time));
             break;
         }
     }

@@ -2,7 +2,6 @@
 #define GLUG_STRUCT_TIMER_H
 
 #include <glug/allocator_t.h>
-#include <glug/timer/time_t.h>
 #include <glug/timer/timer_state.h>
 
 #include <stdint.h>
