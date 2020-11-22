@@ -28,3 +28,14 @@ add_example(
     LINK_LIBS
         ${LIB}
 )
+
+target_compile_features(
+    ${GLUG_TARGET_NAME++}
+    PUBLIC
+        cxx_std_11
+)
+set_target_properties(
+    ${GLUG_TARGET_NAME++}
+    PROPERTIES
+        CXX_EXTENSIONS OFF
+)
