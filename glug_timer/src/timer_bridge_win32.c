@@ -1,24 +1,27 @@
 #include "timer_platform.h"
 #include <glug/os.h>
+#include <frac.h>
+#include "defs.h"
 
 #include "qpc/qpc.h"
-
-#define NSEC_PER_SEC 1000 * 1000 * 1000
 
 uint64_t read_clock_ticks(void)
 {
     return query_counter();
 }
 
-void ticks_per_sec(frac_t *tps)
+void secs_per_tick(frac_t *sec_per_tick)
 {
     uint64_t freq = query_frequency();
-    tps->numer = NSEC_PER_SEC;
-    tps->denom = freq;
+    sec_per_tick->numer = NSEC_PER_SEC;
+    sec_per_tick->denom = freq;
 }
 
-uint64_t clock_res(void)
+void clock_res(struct glug_time *res)
 {
     uint64_t freq = query_frequency();
-    return NSEC_PER_SEC / freq;
+    uint64_t timer_res = NSEC_PER_SEC / freq;
+
+    res->sec  = timer_res / NSEC_PER_SEC;
+    res->nsec = timer_res % NSEC_PER_SEC;
 }

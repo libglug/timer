@@ -13,16 +13,18 @@ void print_controls()
               << "enter selection: " << std::flush;
 }
 
-double msec_from_glug_time(glug_time_t time)
+double msec_from_glug_time(glug::time &time)
 {
-    return time / 1000.0 / 1000.0;
+    return time.sec * 1000 + time.nsec / 1000.0 / 1000.0;
 }
 
 int main(int, char **)
 {
     glug::timer t;
 
-    std::cout << "timer resolution: " << glug::timer::resolution() << std::endl;
+    glug::time time;
+    glug::timer::resolution(time);
+    std::cout << "timer resolution: " << msec_from_glug_time(time) << std::endl;
     print_controls();
 
     char ctrl = '\0';
@@ -42,10 +44,12 @@ int main(int, char **)
             t.reset();
             break;
         case 't':
-            std::cout << "total run time: " << msec_from_glug_time(t.duration()) << "ms" << std::endl;
+            t.duration(time);
+            std::cout << "total run time: " << msec_from_glug_time(time) << "ms" << std::endl;
             break;
         case 'd':
-            std::cout << "split: " << msec_from_glug_time(t.delta()) << "ms" << std::endl;
+            t.delta(time);
+            std::cout << "split: " << msec_from_glug_time(time) << "ms" << std::endl;
             break;
         }
 
