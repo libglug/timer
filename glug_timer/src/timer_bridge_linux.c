@@ -5,12 +5,12 @@
 
 #include "clock/clock.h"
 
-uint64_t read_clock_ticks(void)
+void read_clock_ticks(uint64_t *ticks)
 {
     nstime_t clock;
     get_time(MONOTONIC, &clock);
 
-    return (uint64_t)clock.nsec + (uint64_t)clock.sec * NSEC_PER_SEC;
+    *ticks = (uint64_t)clock.nsec + (uint64_t)clock.sec * NSEC_PER_SEC;
 }
 
 void secs_per_tick(frac_t *sec_per_tick)

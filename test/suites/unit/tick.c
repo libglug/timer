@@ -11,7 +11,8 @@ void test_halved(void)
 {
     struct glug_time actual;
     frac_t frac_half = { 1, 2 };
-    scale_to_time(8765432, &frac_half, &actual);
+    uint64_t ticks = 8765432;
+    scale_to_time(&ticks, &frac_half, &actual);
 
     struct glug_time expected = { 0, 4382716 };
     assert_time_equal(&actual, &expected);
@@ -21,7 +22,8 @@ void test_doubled(void)
 {
     struct glug_time actual;
     frac_t frac_double = { 2, 1 };
-    scale_to_time(12345678, &frac_double, &actual);
+    uint64_t ticks = 12345678;
+    scale_to_time(&ticks, &frac_double, &actual);
 
     struct glug_time expected = { 0, 24691356 };
     assert_time_equal(&actual, &expected);
@@ -31,7 +33,8 @@ void test_scale_with_carry(void)
 {
     struct glug_time actual;
     frac_t scale = { 77, 3 };
-    scale_to_time(777777777, &scale, &actual);
+    uint64_t ticks = 777777777;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 19, 962962943 };
     assert_time_equal(&actual, &expected);
@@ -41,7 +44,8 @@ void test_scale_round_down(void)
 {
     struct glug_time actual;
     frac_t scale = { 1, 3 };
-    scale_to_time(12, &scale, &actual);
+    uint64_t ticks = 12;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 0, 4 };
     assert_time_equal(&actual, &expected);
@@ -51,7 +55,8 @@ void test_scale_round_up(void)
 {
     struct glug_time actual;
     frac_t scale = { 1, 3 };
-    scale_to_time(20, &scale, &actual);
+    uint64_t ticks = 20;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 0, 7 };
     assert_time_equal(&actual, &expected);
@@ -61,12 +66,14 @@ void test_small_scale(void)
 {
     struct glug_time actual;
     frac_t scale = { 1, 0xffffffff };
-    scale_to_time(0x7fffffffffffffff, &scale, &actual);
+    uint64_t ticks = 0x7fffffffffffffff;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 2, 147483648 };
     assert_time_equal(&actual, &expected);
 
-    scale_to_time(0xdeaddeadbeeeef, &scale, &actual);
+    ticks = 0xdeaddeadbeeeef;
+    scale_to_time(&ticks, &scale, &actual);
     expected.sec = 0;
     expected.nsec = 14593503;
     assert_time_equal(&actual, &expected);
@@ -76,12 +83,14 @@ void test_large_scale(void)
 {
     struct glug_time actual;
     frac_t scale = { 0xffffffff, 1 };
-    scale_to_time(1, &scale, &actual);
+    uint64_t ticks = 1;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 4, 294967295 };
     assert_time_equal(&actual, &expected);
 
-    scale_to_time(0xfed, &scale, &actual);
+    ticks = 0xfed;
+    scale_to_time(&ticks, &scale, &actual);
     expected.sec = 17510;
     expected.nsec = 581661715;
     assert_time_equal(&actual, &expected);
@@ -91,7 +100,8 @@ void test_large_ticks(void)
 {
     struct glug_time actual;
     frac_t scale = { 2, 3 };
-    scale_to_time(0xffffffffffff, &scale, &actual);
+    uint64_t ticks = 0xffffffffffff;
+    scale_to_time(&ticks, &scale, &actual);
 
     struct glug_time expected = { 187649, 984473770 };
     assert_time_equal(&actual, &expected);

@@ -24,7 +24,7 @@ int main(int, char **)
 
     glug::time time;
     glug::timer::resolution(time);
-    std::cout << "timer resolution: " << msec_from_glug_time(time) << std::endl;
+    std::cout << "timer resolution: " << time.nsec << "ns" << std::endl;
     print_controls();
 
     char ctrl = '\0';
@@ -49,7 +49,7 @@ int main(int, char **)
             break;
         case 'd':
             t.delta(time);
-            std::cout << "split: " << msec_from_glug_time(time) << "ms" << std::endl;
+            std::cout << "delta: " << msec_from_glug_time(time) << "ms" << std::endl;
             break;
         }
 

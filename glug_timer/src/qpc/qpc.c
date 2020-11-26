@@ -4,18 +4,18 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-uint64_t query_frequency(void)
+void query_frequency(uint64_t *frequency)
 {
     LARGE_INTEGER freq;
     QueryPerformanceFrequency(&freq);
 
-    return freq.QuadPart;
+    *frequency = freq.QuadPart;
 }
 
-uint64_t query_counter(void)
+void query_counter(uint64_t *counter)
 {
-    LARGE_INTEGER counter;
-    QueryPerformanceCounter(&counter);
+    LARGE_INTEGER count;
+    QueryPerformanceCounter(&count);
 
-    return counter.QuadPart;
+    *counter = count.QuadPart;
 }
