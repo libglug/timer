@@ -33,15 +33,13 @@ int main(int argc, char **argv)
     };
 
     struct glug_timer *t;
-    glug_timer_alloc(&t, &alloc);
-
-    struct glug_time res;
-    glug_timer_resolution(&res);
-
-    printf("timer resolution: %"PRIu32"\n", res.nsec);
-
+    glug_timer_alloc(&alloc, &t);
 
     struct glug_time time;
+    glug_timer_resolution(t, &time);
+
+    printf("timer resolution: %dns\n", time.nsec);
+
     int ctrl = 0;
     while(ctrl != 'q')
     {
@@ -65,7 +63,7 @@ int main(int argc, char **argv)
             break;
         case 'd':
             glug_timer_delta(t, &time);
-            printf("split: %.3fms\n", msec_from_glug_time(&time));
+            printf("delta: %.3fms\n", msec_from_glug_time(&time));
             break;
         }
     }

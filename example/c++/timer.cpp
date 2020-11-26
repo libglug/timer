@@ -7,7 +7,7 @@ namespace glug
 timer::timer()
 {
     struct glug_allocator alloc = { malloc, free };
-    glug_timer_alloc(&glug_timer_impl, &alloc);
+    glug_timer_alloc(&alloc, &glug_timer_impl);
 }
 
 timer::~timer()
@@ -47,7 +47,7 @@ enum glug_timer_state timer::state() const
 
 void timer::resolution(time &res)
 {
-    return glug_timer_resolution(&res);
+    return glug_timer_resolution(glug_timer_impl, &res);
 }
 
 } // namespace glug
