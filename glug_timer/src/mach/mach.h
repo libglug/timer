@@ -4,9 +4,9 @@
 #include <frac.h>
 #include <stdint.h>
 
-GLUG_LIB_LOCAL uint64_t continuous_ticks(void);
-GLUG_LIB_LOCAL uint64_t absolute_ticks(void);
+GLUG_LIB_LOCAL void continuous_ticks(uint64_t *);
+GLUG_LIB_LOCAL void absolute_ticks(uint64_t *);
 
-GLUG_LIB_LOCAL void     tick_scale(frac_t *);
+GLUG_LIB_LOCAL void tick_scale(frac_t *);
 
 #endif // GLUG_MACH_H

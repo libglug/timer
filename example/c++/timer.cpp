@@ -7,7 +7,7 @@ namespace glug
 timer::timer()
 {
     struct glug_allocator alloc = { malloc, free };
-    glug_timer_alloc(&glug_timer_impl, &alloc);
+    glug_timer_alloc(&alloc, &glug_timer_impl);
 }
 
 timer::~timer()

@@ -5,21 +5,23 @@
 
 #include "qpc/qpc.h"
 
-uint64_t read_clock_ticks(void)
+void read_clock_ticks(uint64_t *ticks)
 {
-    return query_counter();
+    query_counter(ticks);
 }
 
 void secs_per_tick(frac_t *sec_per_tick)
 {
-    uint64_t freq = query_frequency();
+    uint64_t freq;
+    query_frequency(&freq);
     sec_per_tick->numer = NSEC_PER_SEC;
     sec_per_tick->denom = freq;
 }
 
 void clock_res(struct glug_time *res)
 {
-    uint64_t freq = query_frequency();
+    uint64_t freq;
+    query_frequency(&freq);
     uint64_t timer_res = NSEC_PER_SEC / freq;
 
     res->sec  = timer_res / NSEC_PER_SEC;

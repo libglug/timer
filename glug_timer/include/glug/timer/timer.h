@@ -11,7 +11,7 @@
 
 GLUG_EXTERN_START
 
-GLUG_LIB_API void                   glug_timer_alloc(struct glug_timer **, struct glug_allocator *);
+GLUG_LIB_API void                   glug_timer_alloc(const struct glug_allocator *, struct glug_timer **);
 GLUG_LIB_API void                   glug_timer_free(struct glug_timer **);
 
 // controls

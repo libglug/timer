@@ -5,9 +5,9 @@
 
 #include "mach/mach.h"
 
-uint64_t read_clock_ticks(void)
+void read_clock_ticks(uint64_t * ticks)
 {
-    return continuous_ticks();
+    continuous_ticks(ticks);
 }
 
 void secs_per_tick(frac_t *sec_per_tick)

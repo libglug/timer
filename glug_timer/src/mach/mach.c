@@ -2,14 +2,14 @@
 
 #include <mach/mach_time.h>
 
-uint64_t continuous_ticks(void)
+void continuous_ticks(uint64_t *ticks)
 {
-    return mach_continuous_time();
+    *ticks = mach_continuous_time();
 }
 
-uint64_t absolute_ticks(void)
+void absolute_ticks(uint64_t *ticks)
 {
-    return mach_absolute_time();
+    *ticks = mach_absolute_time();
 }
 
 void tick_scale(frac_t *tick_scale)
