@@ -4,7 +4,7 @@
 #include <glug/os.h>
 
 #if GLUG_OS == GLUG_OS_LIN
-static const clockid_t clock_ids[2] = { CLOCK_MONOTONIC_RAW, CLOCK_BOOTTIME };
+static const clockid_t clock_ids[2] = { CLOCK_BOOTTIME, CLOCK_MONOTONIC_RAW };
 #elif GLUG_OS == GLUG_OS_BSD
 static const clockid_t clock_ids[2] = { CLOCK_MONOTONIC, CLOCK_UPTIME };
 #endif

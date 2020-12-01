@@ -5,7 +5,7 @@
 
 typedef enum
 {
-    MONOTONIC,
+    CONTINUOUS,
     UPTIME
 } clock_type_t;
 

@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <inttypes.h>
 
 void print_controls(void)
 {
@@ -32,10 +31,10 @@ int main(int argc, char **argv)
         free
     };
 
-    struct glug_itimer itimer;
-    glug_itimer_init(&itimer);
+    struct glug_icontinuous_timer itimer;
+    glug_icontinuous_timer_init(&itimer);
 
-    struct glug_timer *t;
+    struct glug_continuous_timer *t;
     itimer.alloc(&alloc, &t);
 
     struct glug_time time;

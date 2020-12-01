@@ -5,17 +5,17 @@
 
 #include "mach/mach.h"
 
-void read_clock_ticks(uint64_t * ticks)
+void read_continuous_ticks(uint64_t * ticks)
 {
     continuous_ticks(ticks);
 }
 
-void secs_per_tick(frac_t *sec_per_tick)
+void continuous_tick_scale(frac_t *sec_per_tick)
 {
     tick_scale(sec_per_tick);
 }
 
-void clock_res(struct glug_time *res)
+void continuous_clock_res(struct glug_time *res)
 {
     frac_t timebase;
     tick_scale(&timebase);
