@@ -5,16 +5,17 @@
 #include <glug/extern.h>
 
 #include <glug/allocator_t.h>
-#include <glug/timer/continuous_timer_t.h>
-#include <glug/timer/time_t.h>
 #include <glug/timer/timer_state.h>
 
 GLUG_EXTERN_START
 
+struct glug_continuous_timer;
+struct glug_time;
+
 struct glug_icontinuous_timer
 {
     void                    (* alloc)(const struct glug_allocator *, struct glug_continuous_timer **);
-    void                    (* free)(struct glug_continuous_timer **);
+    void                    (* free) (struct glug_continuous_timer **);
 
     // controls
     void                    (* start)(struct glug_continuous_timer *);
@@ -29,7 +30,6 @@ struct glug_icontinuous_timer
     void                    (* resolution)(struct glug_time *);
     enum glug_timer_state   (* state)     (const struct glug_continuous_timer *);
 };
-
 
 #ifdef GLUG_USE_TYPEDEFS
     typedef struct glug_icontinuous_timer glug_icontinuous_timer_t;
