@@ -4,50 +4,51 @@
 namespace glug
 {
 
-timer::timer()
+continuous_timer::continuous_timer()
 {
     struct glug_allocator alloc = { malloc, free };
-    glug_timer_alloc(&alloc, &glug_timer_impl);
+    glug_icontinuous_timer_init(&icont_timer);
+    icont_timer.alloc(&alloc, &timer_impl);
 }
 
-timer::~timer()
+continuous_timer::~continuous_timer()
 {
-    glug_timer_free(&glug_timer_impl);
+    icont_timer.free(&timer_impl);
 }
 
-void timer::start()
+void continuous_timer::start()
 {
-    glug_timer_start(glug_timer_impl);
+    icont_timer.start(timer_impl);
 }
 
-void timer::pause()
+void continuous_timer::pause()
 {
-    glug_timer_pause(glug_timer_impl);
+    icont_timer.pause(timer_impl);
 }
 
-void timer::reset()
+void continuous_timer::reset()
 {
-    glug_timer_reset(glug_timer_impl);
+    icont_timer.reset(timer_impl);
 }
 
-void timer::delta(time &delta)
+void continuous_timer::delta(time &delta)
 {
-    glug_timer_delta(glug_timer_impl, &delta);
+    icont_timer.delta(timer_impl, &delta);
 }
 
-void timer::duration(time &run_time) const
+void continuous_timer::duration(time &run_time) const
 {
-    return glug_timer_run_time(glug_timer_impl, &run_time);
+    icont_timer.run_time(timer_impl, &run_time);
 }
 
-enum glug_timer_state timer::state() const
+enum glug_timer_state continuous_timer::state() const
 {
-    return glug_timer_state(glug_timer_impl);
+    return icont_timer.state(timer_impl);
 }
 
-void timer::resolution(time &res)
+void continuous_timer::resolution(time &res)
 {
-    return glug_timer_resolution(&res);
+    icont_timer.resolution(&res);
 }
 
 } // namespace glug

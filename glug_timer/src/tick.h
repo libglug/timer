@@ -6,6 +6,6 @@
 struct frac;
 struct glug_time;
 
-void scale_to_time(const uint64_t *, const struct frac *, struct glug_time *);
+GLUG_LIB_LOCAL void scale_to_time(const uint64_t *, const struct frac *, struct glug_time *);
 
 #endif // GLUG_TICK_H

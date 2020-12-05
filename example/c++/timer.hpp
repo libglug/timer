@@ -9,11 +9,11 @@ namespace glug
 
 using time = struct glug_time;
 
-class timer
+class continuous_timer
 {
 public:
-    timer();
-    virtual ~timer();
+    continuous_timer();
+    virtual ~continuous_timer();
 
     void start();
     void pause();
@@ -23,10 +23,11 @@ public:
     void duration(time &) const;
 
     enum glug_timer_state state() const;
-    static void resolution(time &res);
+    void resolution(time &res);
 
 private:
-    glug_timer *glug_timer_impl;
+    glug_icontinuous_timer icont_timer;
+    glug_continuous_timer *timer_impl;
 };
 
 } // namespace glug

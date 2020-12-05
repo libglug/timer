@@ -5,12 +5,12 @@
 
 #include "qpc/qpc.h"
 
-void read_clock_ticks(uint64_t *ticks)
+void read_continuous_ticks(uint64_t *ticks)
 {
     query_counter(ticks);
 }
 
-void secs_per_tick(frac_t *sec_per_tick)
+void continuous_tick_scale(frac_t *sec_per_tick)
 {
     uint64_t freq;
     query_frequency(&freq);
@@ -18,7 +18,7 @@ void secs_per_tick(frac_t *sec_per_tick)
     sec_per_tick->denom = freq;
 }
 
-void clock_res(struct glug_time *res)
+void continuous_clock_res(struct glug_time *res)
 {
     uint64_t freq;
     query_frequency(&freq);

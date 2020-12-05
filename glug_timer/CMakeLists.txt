@@ -23,11 +23,12 @@ list(
     ${COM_ROOT}/params.h
     ${INC_ROOT}/timer.h
     ${INC_ROOT}/timer/time_t.h
-    ${INC_ROOT}/timer/timer_t.h
     ${INC_ROOT}/timer/timer.h
     ${INC_ROOT}/timer/timer_state.h
+    ${INC_ROOT}/timer/continuous_timer_t.h
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
+    ${SRC_ROOT}/continuous_timer.c
     ${SRC_ROOT}/frac.h
     ${SRC_ROOT}/timer_platform.h
     ${SRC_ROOT}/tick.h
