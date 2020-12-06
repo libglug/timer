@@ -13,6 +13,7 @@ function (parse_git_tag_version MAJOR_VAR MINOR_VAR PATCH_VAR META_VAR)
     )
 
     if (DEFINED VERSION)
+        message("PARSING ")
         string(STRIP ${VERSION} VERSION)
         if(VERSION MATCHES "^[0-9]+.[0-9]+.[0-9]+")
             string(REGEX REPLACE "([0-9]+).([0-9]+).([0-9]+)" "\\1;\\2;\\3" VERSION ${VERSION})
