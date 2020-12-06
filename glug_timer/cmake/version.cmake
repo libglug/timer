@@ -4,7 +4,7 @@ function (parse_git_tag_version MAJOR_VAR MINOR_VAR PATCH_VAR META_VAR)
     # read tag from git
     execute_process(
         COMMAND
-            git describe --tag
+            git describe --tag --abbrev=0
         WORKING_DIRECTORY
             ${CMAKE_CURRENT_SOURCE_DIR}
         OUTPUT_VARIABLE
