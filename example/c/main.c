@@ -1,5 +1,6 @@
 #include <glug/timer/continuous_timer.h>
 #include <glug/timer/time_t.h>
+#include <glug/timer/version.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,12 @@ int main(int argc, char **argv)
 {
     (void) argc;
     (void) argv;
+
+    printf("Using timer v%d.%d.%d-%s\n",
+           GLUG_TIMER_MAJOR_VERSION,
+           GLUG_TIMER_MINOR_VERSION,
+           GLUG_TIMER_PATCH_VERSION,
+           GLUG_TIMER_META_VERSION);
 
     struct glug_allocator alloc =
     {

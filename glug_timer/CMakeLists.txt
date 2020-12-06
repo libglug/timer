@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(VER_MAJOR 1)
-set(VER_MINOR 0)
-set(VER_PATCH 0)
+include(cmake/version.cmake)
+
+parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META")
+set(FULL_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META}")
+
 project(glug_timer VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
 include(cmake/add_gluglib.cmake)
 
@@ -11,6 +13,11 @@ option(BUILD_STATIC "Build as a static library instead of shared" OFF)
 set(COM_ROOT common_headers/include/glug)
 set(SRC_ROOT src)
 set(INC_ROOT include/glug)
+
+# configure files
+set(CONFIGURED_ROOT ${CMAKE_CURRENT_BINARY_DIR}/configured)
+set(CONFIGURED_INC_ROOT ${CONFIGURED_ROOT}/include)
+configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_INC_ROOT}/glug/timer/version.h)
 
 list(
     APPEND
@@ -22,6 +29,7 @@ list(
     ${COM_ROOT}/os.h
     ${COM_ROOT}/params.h
     ${INC_ROOT}/timer.h
+    ${INC_ROOT}/timer/version.h.in
     ${INC_ROOT}/timer/continuous_timer.h
     ${INC_ROOT}/timer/uptime_timer.h
     ${INC_ROOT}/timer/continuous_timer_t.h
@@ -99,10 +107,15 @@ target_compile_definitions(
         _WIN32_WINNT=0x0601
 )
 
+message("---------------------------")
+message("${CMAKE_CURRENT_BINARY_DIR}")
+message("${CONFIGURED_ROOT}")
+
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CONFIGURED_ROOT}/include> # because "Version.h" is a configured file
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common_headers/include>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -126,6 +139,14 @@ install(
         include/
     DESTINATION
         include
+    FILES_MATCHING PATTERN
+        "*.h"
+)
+install(
+    FILES
+        ${CONFIGURED_INC_ROOT}/glug/timer/version.h
+    DESTINATION
+        include/glug/timer
 )
 
 # install the common_headers

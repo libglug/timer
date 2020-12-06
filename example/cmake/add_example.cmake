@@ -1,7 +1,7 @@
 # create simple example with simple dependencies
 function (add_example)
-    set(OPTIONS INSTALL_PATH)
-    set(SINGLE_VALS TARGET_NAME)
+    set(OPTIONS)
+    set(SINGLE_VALS TARGET_NAME INSTALL_PATH)
     set(MULTI_VALS SRC LINK_LIBS)
     cmake_parse_arguments(GLUG "${OPTIONS}" "${SINGLE_VALS}" "${MULTI_VALS}" ${ARGN})
 
