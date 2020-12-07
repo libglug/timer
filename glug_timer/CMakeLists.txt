@@ -95,7 +95,7 @@ add_gluglib(
 
 target_compile_definitions(
     ${PROJECT_NAME}
-    PUBLIC
+    PRIVATE
         _WIN32_WINNT=0x0601
 )
 
