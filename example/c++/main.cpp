@@ -1,5 +1,6 @@
 #include <iostream>
 #include "timer.hpp"
+#include <glug/timer/version.h>
 
 void print_controls()
 {
@@ -20,6 +21,11 @@ double msec_from_glug_time(glug::time &time)
 
 int main(int, char **)
 {
+    std::cout << "Using timer v"
+              << GLUG_TIMER_VERSION_MAJOR
+              << GLUG_TIMER_VERSION_MINOR
+              << GLUG_TIMER_VERSION_PATCH << std::endl;
+
     glug::continuous_timer t;
 
     glug::time time;
@@ -30,7 +36,7 @@ int main(int, char **)
     char ctrl = '\0';
     std::cin >> ctrl;
 
-    while (ctrl != 'q')
+    while (tolower(ctrl) != 'q')
     {
         switch (ctrl)
         {

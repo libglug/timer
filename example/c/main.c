@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 void print_controls(void)
 {
@@ -27,11 +28,10 @@ int main(int argc, char **argv)
     (void) argc;
     (void) argv;
 
-    printf("Using timer v%d.%d.%d-%s\n",
-           GLUG_TIMER_MAJOR_VERSION,
-           GLUG_TIMER_MINOR_VERSION,
-           GLUG_TIMER_PATCH_VERSION,
-           GLUG_TIMER_META_VERSION);
+    printf("Using timer v%d.%d.%d\n",
+           GLUG_TIMER_VERSION_MAJOR,
+           GLUG_TIMER_VERSION_MINOR,
+           GLUG_TIMER_VERSION_PATCH);
 
     struct glug_allocator alloc =
     {
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     printf("timer resolution: %uns\n", time.nsec);
 
     int ctrl = 0;
-    while(ctrl != 'q')
+    while(tolower(ctrl) != 'q')
     {
         print_controls();
         ctrl = getchar();

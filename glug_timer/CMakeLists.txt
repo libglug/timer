@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 include(cmake/version.cmake)
 
-parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META")
+parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META" "VER_REV" "VER_HASH" "VER_FULL")
 set(FULL_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META}")
 
 project(glug_timer VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
@@ -15,9 +15,8 @@ set(SRC_ROOT src)
 set(INC_ROOT include/glug)
 
 # configure files
-set(CONFIGURED_ROOT ${CMAKE_CURRENT_BINARY_DIR}/configured)
-set(CONFIGURED_INC_ROOT ${CONFIGURED_ROOT}/include)
-configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_INC_ROOT}/glug/timer/version.h)
+set(CONFIGURED_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/configured)
+configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_OUT_DIR}/include/glug/timer/version.h)
 
 list(
     APPEND
@@ -107,15 +106,11 @@ target_compile_definitions(
         _WIN32_WINNT=0x0601
 )
 
-message("---------------------------")
-message("${CMAKE_CURRENT_BINARY_DIR}")
-message("${CONFIGURED_ROOT}")
-
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CONFIGURED_ROOT}/include> # because "Version.h" is a configured file
+        $<BUILD_INTERFACE:${CONFIGURED_OUT_DIR}/include> # because "version.h" is a configured file
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common_headers/include>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -133,7 +128,7 @@ install(
         lib
 )
 
-#install the lib's headers
+# install the lib's headers
 install(
     DIRECTORY
         include/
@@ -142,9 +137,11 @@ install(
     FILES_MATCHING PATTERN
         "*.h"
 )
+
+# install the lib's configured version file
 install(
     FILES
-        ${CONFIGURED_INC_ROOT}/glug/timer/version.h
+        ${CONFIGURED_OUT_DIR}/include/glug/timer/version.h
     DESTINATION
         include/glug/timer
 )
