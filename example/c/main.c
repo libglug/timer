@@ -1,4 +1,5 @@
-#include <glug/timer/timer.h>
+#include <glug/timer/continuous_timer.h>
+#include <glug/timer/time_t.h>
 
 #include <stdio.h>
 #include <stdlib.h>

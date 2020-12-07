@@ -22,13 +22,16 @@ list(
     ${COM_ROOT}/os.h
     ${COM_ROOT}/params.h
     ${INC_ROOT}/timer.h
-    ${INC_ROOT}/timer/time_t.h
-    ${INC_ROOT}/timer/timer.h
-    ${INC_ROOT}/timer/timer_state.h
+    ${INC_ROOT}/timer/continuous_timer.h
+    ${INC_ROOT}/timer/uptime_timer.h
     ${INC_ROOT}/timer/continuous_timer_t.h
+    ${INC_ROOT}/timer/uptime_timer_t.h
+    ${INC_ROOT}/timer/time_t.h
+    ${INC_ROOT}/timer/timer_state.h
     ${SRC_ROOT}/timer.h
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/continuous_timer.c
+    ${SRC_ROOT}/uptime_timer.c
     ${SRC_ROOT}/frac.h
     ${SRC_ROOT}/timer_platform.h
     ${SRC_ROOT}/tick.h
@@ -44,6 +47,8 @@ list(
     ${SRC_ROOT}/timer_bridge_win32.c
     ${SRC_ROOT}/qpc/qpc.h
     ${SRC_ROOT}/qpc/qpc.c
+    ${SRC_ROOT}/qpc/quit.h
+    ${SRC_ROOT}/qpc/quit.c
 )
 
 # Mac OS sources
@@ -86,6 +91,12 @@ add_gluglib(
     WIN32_LIBS
     MACOS_LIBS
     LINUX_LIBS
+)
+
+target_compile_definitions(
+    ${PROJECT_NAME}
+    PRIVATE
+        _WIN32_WINNT=0x0601
 )
 
 target_include_directories(

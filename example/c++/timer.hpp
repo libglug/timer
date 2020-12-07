@@ -1,7 +1,8 @@
 #ifndef GLUG_TIMER_HPP
 #define GLUG_TIMER_HPP
 
-#include <glug/timer/timer.h>
+#include <glug/timer/continuous_timer.h>
+#include <glug/timer/time_t.h>
 #include <glug/timer/timer_state.h>
 
 namespace glug

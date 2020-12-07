@@ -23,6 +23,11 @@ struct glug_continuous_timer
     struct glug_timer base;
 };
 
+struct glug_uptime_timer
+{
+    struct glug_timer base;
+};
+
 GLUG_LIB_LOCAL void timer_start(struct glug_timer *, void (*)(uint64_t *));
 GLUG_LIB_LOCAL void timer_pause(struct glug_timer *, void (*)(uint64_t *));
 GLUG_LIB_LOCAL void timer_reset(struct glug_timer *, void (*)(uint64_t *));
