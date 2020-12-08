@@ -11,6 +11,8 @@ set(INSTALL_PATH example)
 add_example(
     TARGET_NAME
         ${GLUG_TARGET_NAME}
+    INSTALL_PATH
+        ${INSTALL_PATH}
     SRC
         c/main.c
     LINK_LIBS
