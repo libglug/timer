@@ -5,7 +5,12 @@ include(cmake/version.cmake)
 parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META" "VER_REV" "VER_HASH" "VER_FULL")
 set(FULL_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META}")
 
-project(glug_timer VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
+project(
+    glug_timer
+    LANGUAGES
+        C
+    VERSION
+        ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH})
 include(cmake/add_gluglib.cmake)
 
 option(BUILD_STATIC "Build as a static library instead of shared" OFF)
@@ -89,12 +94,18 @@ list(
 )
 
 add_gluglib(
-    TARGET_NAME  ${PROJECT_NAME}
-    STATIC_BUILD ${BUILD_STATIC}
-    WIN32_SOURCE ${WIN32_SOURCE}
-    MACOS_SOURCE ${MACOS_SOURCE}
-    LINUX_SOURCE ${LINUX_SOURCE}
-    BSD_SOURCE   ${BSD_SOURCE}
+    TARGET_NAME
+        ${PROJECT_NAME}
+    STATIC_BUILD
+        ${BUILD_STATIC}
+    WIN32_SOURCE
+        ${WIN32_SOURCE}
+    MACOS_SOURCE
+        ${MACOS_SOURCE}
+    LINUX_SOURCE
+        ${LINUX_SOURCE}
+    BSD_SOURCE
+        ${BSD_SOURCE}
     WIN32_LIBS
     MACOS_LIBS
     LINUX_LIBS
