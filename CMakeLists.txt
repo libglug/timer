@@ -3,8 +3,8 @@ cmake_policy(SET CMP0054 NEW)
 set(GLUG_LIB_TARGET glug_timer)
 project(${GLUG_LIB_TARGET}_suite)
 
-option(BUILD_XMPLS "Build the examples?")
-option(BUILD_TESTS "Build tests?")
+option(BUILD_EXAMPLES "Build the examples?" OFF)
+option(BUILD_TESTS "Build tests?" OFF)
 
 # disable find_package in any subproject for finding this lib
 macro(find_package)
@@ -17,7 +17,7 @@ endmacro()
 add_subdirectory(${GLUG_LIB_TARGET})
 
 # build and install examples
-if (${BUILD_XMPLS})
+if (${BUILD_EXAMPLES})
     add_subdirectory(example)
 
     # copy the glug lib to the example build dir if it's shared

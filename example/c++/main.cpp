@@ -22,8 +22,8 @@ double msec_from_glug_time(glug::time &time)
 int main(int, char **)
 {
     std::cout << "Using timer v"
-              << GLUG_TIMER_VERSION_MAJOR
-              << GLUG_TIMER_VERSION_MINOR
+              << GLUG_TIMER_VERSION_MAJOR << "."
+              << GLUG_TIMER_VERSION_MINOR << "."
               << GLUG_TIMER_VERSION_PATCH << std::endl;
 
     glug::continuous_timer t;

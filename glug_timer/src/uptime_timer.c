@@ -1,7 +1,7 @@
 #include <glug/timer/uptime_timer.h>
 #include <glug/timer/time_t.h>
 #include "timer.h"
-#include "timer_platform.h"
+#include "timer_bridge.h"
 
 static void uptime_timer_alloc(const struct glug_allocator *alloc, struct glug_uptime_timer **timer)
 {

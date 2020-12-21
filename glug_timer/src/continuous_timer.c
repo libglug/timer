@@ -1,7 +1,7 @@
 #include <glug/timer/continuous_timer.h>
 #include <glug/timer/time_t.h>
 #include "timer.h"
-#include "timer_platform.h"
+#include "timer_bridge.h"
 
 static void continuous_timer_alloc(const struct glug_allocator *alloc, struct glug_continuous_timer **timer)
 {
