@@ -46,5 +46,4 @@ add_custom_command(
 #    COMMAND
 #        ${CMAKE_COMMAND} -E copy
 #            $<TARGET_FILE:${TESTED_LIB}> ${CMAKE_CURRENT_BINARY_DIR}
-
 )

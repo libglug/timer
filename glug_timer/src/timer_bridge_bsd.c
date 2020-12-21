@@ -1,4 +1,4 @@
-#include "timer_platform.h"
+#include "timer_bridge.h"
 #include <glug/timer/time_t.h>
 #include <frac.h>
 #include "defs.h"
