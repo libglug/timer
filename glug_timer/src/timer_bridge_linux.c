@@ -58,6 +58,6 @@ static void clock_res(clock_type_t clock_type, struct glug_time *res)
     clocktime_t timer_res;
     get_res(clock_type, &timer_res);
 
-    res->sec  = timer_res.sec;
-    res->nsec = timer_res.nsec;
+    res->sec  = (uint32_t)timer_res.sec;
+    res->nsec = (uint32_t)timer_res.nsec;
 }

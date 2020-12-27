@@ -54,6 +54,6 @@ static void freq_to_res(uint64_t *freq, struct glug_time *res)
 {
     uint64_t timer_res = NSEC_PER_SEC / *freq;
 
-    res->sec  = timer_res / NSEC_PER_SEC;
-    res->nsec = timer_res % NSEC_PER_SEC;
+    res->sec  = (uint32_t)(timer_res / NSEC_PER_SEC);
+    res->nsec = (uint32_t)(timer_res % NSEC_PER_SEC);
 }

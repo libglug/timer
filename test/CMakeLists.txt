@@ -2,9 +2,44 @@ add_subdirectory(cunit/CUnit EXCLUDE_FROM_ALL)
 include(add_unit_test.cmake)
 
 set(TESTED_LIB glug_timer)
-set(TEST_ROOT .)
-set(LIB_SRC ../${TESTED_LIB}/src)
-set(LIB_INC ../${TESTED_LIB}/include)
+
+set(LIB_SRC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/src)
+set(LIB_INC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/include)
+
+macro(add_test_by_conf TEST_CONF)
+    include(${TEST_CONF})
+
+    list(
+        TRANSFORM
+            TEST_LIB_SOURCE
+        PREPEND
+            ${LIB_SRC_ROOT}/
+    )
+
+    add_unit_test(
+        TARGET
+            ${TEST_TARGET}
+        SOURCES
+            ${TEST_SOURCE}
+            ${TEST_LIB_SOURCE}
+            test_utils/suites/create_suite.h
+            test_utils/suites/create_suite.c
+            test_utils/asserts/time.h
+            test_utils/asserts/time.c
+        INCLUDE_DIRS
+            test_utils
+            ${LIB_SRC_ROOT}
+            ${LIB_INC_ROOT}
+            ${TEST_INCLUDE_DIRS}
+    )
+
+    list(
+        APPEND
+        TEST_TARGETS
+        ${TEST_TARGET}
+    )
+
+endmacro()
 
 # unit tests
 list(
@@ -12,19 +47,7 @@ list(
     TEST_TARGETS
 )
 
-add_unit_test(
-    TARGET
-        tick-scale
-    SOURCES
-        ${LIB_SRC}/tick.h
-        ${LIB_SRC}/tick.c
-        suites/unit/tick.c
-        suites/asserts.h
-        suites/asserts.c
-    INCLUDE_DIRS
-        ${LIB_SRC}
-        ${LIB_INC}
-)
+add_test_by_conf("tick.cmake")
 
 # copy the executable to this build directory (MSVC likes to hide it in Debug/Release folders)
 add_custom_target(

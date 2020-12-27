@@ -1,5 +1,7 @@
-#include "asserts.h"
+#include "time.h"
 #include <CUnit/Assert.h>
+
+#include <glug/timer/time_t.h>
 
 void assert_time_equal(struct glug_time *t1, struct glug_time *t2)
 {

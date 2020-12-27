@@ -18,6 +18,6 @@ void scale_to_time(const uint64_t *ticks, const struct frac *scale, struct glug_
     uint64_t low = (uint64_t)(LOW_MASK_U64(*ticks) * lfscale + 0.5) + highdiv.rem;
     lldiv_t lowdiv = lldiv(low, NSEC_PER_SEC);
 
-    time->nsec = lowdiv.rem;
-    time->sec  = highdiv.quot + lowdiv.quot;
+    time->nsec = (uint32_t)lowdiv.rem;
+    time->sec  = (uint32_t)(highdiv.quot + lowdiv.quot);
 }

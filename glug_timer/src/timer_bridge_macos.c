@@ -47,6 +47,6 @@ static void tick_scale_to_res(const frac_t *tick_scale, struct glug_time *res)
 {
     uint64_t timer_res = tick_scale->numer / tick_scale->denom;
 
-    res->sec  = timer_res / NSEC_PER_SEC;
-    res->nsec = timer_res % NSEC_PER_SEC;
+    res->sec  = (uint32_t)(timer_res / NSEC_PER_SEC);
+    res->nsec = (uint32_t)(timer_res % NSEC_PER_SEC);
 }
