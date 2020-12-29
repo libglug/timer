@@ -3,7 +3,7 @@
 
 #include <glug/allocator_t.h>
 #include <glug/timer/timer_state.h>
-#include "frac.h"
+#include "frac_t.h"
 
 #include <stdint.h>
 

@@ -4,7 +4,7 @@
 #include <asserts/time.h>
 
 #include <glug/timer/time_t.h>
-#include <frac.h>
+#include <frac_t.h>
 #include <tick.h>
 
 void test_halved(void)

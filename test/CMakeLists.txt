@@ -34,6 +34,8 @@ function(add_test_by_conf TEST_CONF)
             test_utils/suites/create_suite.c
             test_utils/asserts/time.h
             test_utils/asserts/time.c
+            test_utils/asserts/frac.h
+            test_utils/asserts/frac.c
         INCLUDE_DIRS
             test_utils
             test_utils/mocks
@@ -70,6 +72,7 @@ list(
 add_test_by_conf("tick.cmake")
 add_test_by_conf("qpc.cmake")
 add_test_by_conf("quit.cmake")
+add_test_by_conf("mach.cmake")
 
 # build all tests suites as part of the "check" target
 add_custom_target(

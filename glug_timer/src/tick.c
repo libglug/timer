@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <glug/timer/time_t.h>
-#include <frac.h>
+#include <frac_t.h>
 
 #include <stdlib.h>
 

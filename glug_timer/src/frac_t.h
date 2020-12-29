@@ -1,5 +1,5 @@
-#ifndef GLUG_FRAC_H
-#define GLUG_FRAC_H
+#ifndef GLUG_FRAC_T_H
+#define GLUG_FRAC_T_H
 
 #include <stdint.h>
 
@@ -9,4 +9,4 @@ typedef struct frac
     uint64_t denom;
 } frac_t;
 
-#endif // GLUG_FRAC_H
+#endif // GLUG_FRAC_T_H

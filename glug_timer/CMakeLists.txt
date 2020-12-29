@@ -46,7 +46,7 @@ list(
     ${SRC_ROOT}/timer.c
     ${SRC_ROOT}/continuous_timer.c
     ${SRC_ROOT}/uptime_timer.c
-    ${SRC_ROOT}/frac.h
+    ${SRC_ROOT}/frac_t.h
     ${SRC_ROOT}/timer_bridge.h
     ${SRC_ROOT}/tick.h
     ${SRC_ROOT}/tick.c

@@ -1,6 +1,6 @@
 #include "timer_bridge.h"
 #include <glug/timer/time_t.h>
-#include <frac.h>
+#include <frac_t.h>
 #include "defs.h"
 
 #include "qpc/qpc.h"
