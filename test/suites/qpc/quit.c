@@ -4,8 +4,7 @@
 #include <suites/create_suite.h>
 
 #include <qpc/quit.h>
-
-#include <Windows.h>
+#include <mocks/Windows.h>
 
 void test_unbiased_frequency(void)
 {

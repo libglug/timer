@@ -5,7 +5,7 @@
 #include <asserts/clocktime.h>
 
 #include <clock/clock.h>
-#include <time.h>
+#include <mocks/time.h>
 
 void test_clock_gettime(void)
 {

@@ -5,7 +5,7 @@
 #include <asserts/frac.h>
 
 #include <mach/mach.h>
-#include <mach/mach_time.h>
+#include <mocks/mach/mach_time.h>
 
 #include <frac_t.h>
 

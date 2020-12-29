@@ -4,8 +4,7 @@
 #include <suites/create_suite.h>
 
 #include <qpc/qpc.h>
-
-#include <Windows.h>
+#include <mocks/Windows.h>
 
 void test_query_frequency(void)
 {
