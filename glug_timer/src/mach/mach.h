@@ -1,7 +1,7 @@
 #ifndef GLUG_MACH_H
 #define GLUG_MACH_H
 
-#include <frac.h>
+#include <frac_t.h>
 #include <stdint.h>
 
 GLUG_LIB_LOCAL void continuous_ticks(uint64_t *);

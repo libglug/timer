@@ -1,10 +1,10 @@
 ﻿#include <CUnit/Basic.h>
 
-#include <create_suite.h>
-#include <suites/asserts.h>
+#include <suites/create_suite.h>
+#include <asserts/time.h>
 
 #include <glug/timer/time_t.h>
-#include <frac.h>
+#include <frac_t.h>
 #include <tick.h>
 
 void test_halved(void)

@@ -1,6 +1,6 @@
 #include "timer_bridge.h"
 #include <glug/timer/time_t.h>
-#include <frac.h>
+#include <frac_t.h>
 #include "defs.h"
 
 #include "qpc/qpc.h"
@@ -54,6 +54,6 @@ static void freq_to_res(uint64_t *freq, struct glug_time *res)
 {
     uint64_t timer_res = NSEC_PER_SEC / *freq;
 
-    res->sec  = timer_res / NSEC_PER_SEC;
-    res->nsec = timer_res % NSEC_PER_SEC;
+    res->sec  = (uint32_t)(timer_res / NSEC_PER_SEC);
+    res->nsec = (uint32_t)(timer_res % NSEC_PER_SEC);
 }
