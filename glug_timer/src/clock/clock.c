@@ -15,7 +15,7 @@ void get_time(clock_type_t clock_type, clocktime_t *time)
     struct timespec timespec;
 
     clock_gettime(clock, &timespec);
-    time->sec  = timespec.tv_sec;
+    time->sec  = (uint32_t)timespec.tv_sec;
     time->nsec = timespec.tv_nsec;
 }
 
@@ -25,6 +25,6 @@ void get_res(clock_type_t clock_type, clocktime_t *res)
     struct timespec resspec;
 
     clock_getres(clock, &resspec);
-    res->sec  = resspec.tv_sec;
+    res->sec  = (uint32_t)resspec.tv_sec;
     res->nsec = resspec.tv_nsec;
 }

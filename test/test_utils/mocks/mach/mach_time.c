@@ -34,4 +34,6 @@ void set_mach_timebase_info(const mach_timebase_info_data_t *timebase)
 kern_return_t mach_timebase_info(mach_timebase_info_data_t *timebase)
 {
     *timebase = timebase_info;
+
+    return 0;
 }

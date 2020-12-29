@@ -36,6 +36,8 @@ function(add_test_by_conf TEST_CONF)
             test_utils/asserts/time.c
             test_utils/asserts/frac.h
             test_utils/asserts/frac.c
+            test_utils/asserts/clocktime.h
+            test_utils/asserts/clocktime.c
         INCLUDE_DIRS
             test_utils
             test_utils/mocks
@@ -44,13 +46,20 @@ function(add_test_by_conf TEST_CONF)
             ${TEST_INCLUDE_DIRS}
     )
 
+    foreach(DEF IN LISTS TEST_DEFS)
+        target_compile_definitions(
+            ${TEST_TARGET}
+            PRIVATE
+                ${DEF}
+        )
+    endforeach()
+
     foreach(MOCK IN LISTS TEST_MOCKS)
         target_compile_definitions(
             ${TEST_TARGET}
             PRIVATE
                 ${MOCK}=${MOCK}_mocked
         )
-
     endforeach()
 
     list(
@@ -73,6 +82,8 @@ add_test_by_conf("tick.cmake")
 add_test_by_conf("qpc.cmake")
 add_test_by_conf("quit.cmake")
 add_test_by_conf("mach.cmake")
+add_test_by_conf("clock-linux.cmake")
+add_test_by_conf("clock-bsd.cmake")
 
 # build all tests suites as part of the "check" target
 add_custom_target(

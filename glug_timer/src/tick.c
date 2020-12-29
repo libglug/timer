@@ -1,4 +1,4 @@
-#include "time.h"
+#include "tick.h"
 #include "defs.h"
 
 #include <math.h>
