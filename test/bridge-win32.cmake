@@ -1,4 +1,4 @@
-set(TEST_TARGET "bridge_win32")
+set(TEST_TARGET "bridge-win32")
 
 set(TEST_SOURCE suites/bridge/win32.c)
 
