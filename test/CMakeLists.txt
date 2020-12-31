@@ -84,6 +84,10 @@ add_test_by_conf("quit.cmake")
 add_test_by_conf("mach.cmake")
 add_test_by_conf("clock-linux.cmake")
 add_test_by_conf("clock-bsd.cmake")
+add_test_by_conf("bridge-win32.cmake")
+add_test_by_conf("bridge-osx.cmake")
+add_test_by_conf("bridge-linux.cmake")
+add_test_by_conf("bridge-bsd.cmake")
 
 # build all tests suites as part of the "check" target
 add_custom_target(

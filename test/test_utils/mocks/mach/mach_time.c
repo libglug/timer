@@ -25,7 +25,7 @@ uint64_t mach_absolute_time(void)
 }
 
 // mach_timebase_info
-static mach_timebase_info_data_t timebase_info = {0, 0};
+static mach_timebase_info_data_t timebase_info = { 0, 0 };
 void set_mach_timebase_info(const mach_timebase_info_data_t *timebase)
 {
     timebase_info = *timebase;

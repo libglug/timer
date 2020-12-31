@@ -70,7 +70,7 @@ list(
     APPEND
     MACOS_SOURCE
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/timer_bridge_macos.c
+    ${SRC_ROOT}/timer_bridge_osx.c
     ${SRC_ROOT}/mach/mach.h
     ${SRC_ROOT}/mach/mach.c
 )
