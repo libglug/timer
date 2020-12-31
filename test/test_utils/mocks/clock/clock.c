@@ -1,7 +1,7 @@
 #include "clock.h"
 
 // get_time
-static clocktime_t times[2];
+static clocktime_t times[2] = { { 0, 0 }, { 0, 0 } };
 
 void set_time(clock_type_t clock_type, const clocktime_t *time)
 {
@@ -14,7 +14,7 @@ void get_time(clock_type_t clock_type, clocktime_t *time)
 }
 
 // get_res
-static clocktime_t ress[2];
+static clocktime_t ress[2] = { { 0, 0 }, { 0, 0 } };
 
 void set_res(clock_type_t clock_type, const clocktime_t *res)
 {

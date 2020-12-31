@@ -13,7 +13,7 @@ void query_unbiased_frequency(uint64_t *freq)
 }
 
 // query_unbiased_time
-static uint64_t time;
+static uint64_t time = 0;
 void set_unbiased_time(const uint64_t *unbiased)
 {
     time = *unbiased;
