@@ -38,7 +38,7 @@ void test_continuous_clock_res(void)
     set_tick_scale(&scale);
 
     uint64_t freq = scale.numer / scale.denom;
-    struct glug_time expected = { freq / NSEC_PER_SEC, freq % NSEC_PER_SEC };
+    struct glug_time expected = { (uint32_t)(freq / NSEC_PER_SEC), freq % NSEC_PER_SEC };
     struct glug_time actual;
     continuous_clock_res(&actual);
 
@@ -73,7 +73,7 @@ void test_uptime_clock_res(void)
     set_tick_scale(&scale);
 
     uint64_t freq = scale.numer / scale.denom;
-    struct glug_time expected = { freq / NSEC_PER_SEC, freq % NSEC_PER_SEC };
+    struct glug_time expected = { (uint32_t)(freq / NSEC_PER_SEC), freq % NSEC_PER_SEC };
     struct glug_time actual;
     uptime_clock_res(&actual);
 

@@ -41,7 +41,7 @@ void test_continuous_clock_res(void)
     uint64_t expected_freq = NSEC_PER_SEC / freq_scale;
     set_frequency(&expected_freq);
 
-    struct glug_time expected = { NSEC_PER_SEC <= freq_scale, freq_scale };
+    struct glug_time expected = { NSEC_PER_SEC <= freq_scale, (uint32_t)freq_scale };
     struct glug_time actual;
     continuous_clock_res(&actual);
 
@@ -87,7 +87,7 @@ void test_uptime_clock_res(void)
     uint64_t expected_freq = NSEC_PER_SEC / freq_scale;
     set_unbiased_frequency(&expected_freq);
 
-    struct glug_time expected = { NSEC_PER_SEC <= freq_scale, freq_scale };
+    struct glug_time expected = { NSEC_PER_SEC <= freq_scale, (uint32_t)freq_scale };
     struct glug_time actual;
     uptime_clock_res(&actual);
 

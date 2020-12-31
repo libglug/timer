@@ -9,7 +9,7 @@ set(TEST_SOURCE
 list(
     APPEND
     TEST_LIB_SOURCE
-    timer_bridge_linux.c
+    timer_bridge_bsd.c
 )
 
 list(
