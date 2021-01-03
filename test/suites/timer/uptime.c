@@ -299,7 +299,7 @@ void test_multiple_timers(void)
     uint64_t ticks = 100;
     set_uptime_ticks(&ticks);
 
-    struct glug_time expected_delta2 = { 0, ticks }, expected_run2 = { 0, ticks };
+    struct glug_time expected_delta2 = { 0, (uint32_t)ticks }, expected_run2 = { 0, (uint32_t)ticks };
     iuptime.start(timer2);
 
     struct glug_time actual_delta1, actual_run1, actual_delta2, actual_run2;
@@ -312,10 +312,10 @@ void test_multiple_timers(void)
     iuptime.delta(timer2, &actual_delta2);
     iuptime.run_time(timer2, &actual_run2);
 
-    expected_delta1.nsec = ticks;
-    expected_run1.nsec = ticks;
-    expected_delta2.nsec = ticks - expected_delta2.nsec;
-    expected_run2.nsec = ticks - expected_run2.nsec;
+    expected_delta1.nsec = (uint32_t)ticks;
+    expected_run1.nsec   = (uint32_t)ticks;
+    expected_delta2.nsec = (uint32_t)(ticks - expected_delta2.nsec);
+    expected_run2.nsec   = (uint32_t)(ticks - expected_run2.nsec);
     assert_time_equal(&expected_delta1, &actual_delta1);
     assert_time_equal(&expected_run1, &actual_run1);
     assert_time_equal(&expected_delta2, &actual_delta2);

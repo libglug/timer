@@ -5,10 +5,12 @@
 #include <glug/timer/time_t.h>
 #include <glug/timer/timer_state.h>
 
+#include <glug/timer/uptime_timer.h>
+
 namespace glug
 {
 
-using time = struct glug_time;
+using time = glug_time;
 
 class continuous_timer
 {
@@ -29,6 +31,27 @@ public:
 private:
     glug_icontinuous_timer icont_timer;
     glug_continuous_timer *timer_impl;
+};
+
+class uptime_timer
+{
+public:
+    uptime_timer();
+    virtual ~uptime_timer();
+
+    void start();
+    void pause();
+    void reset();
+
+    void delta(time &);
+    void duration(time &) const;
+
+    enum glug_timer_state state() const;
+    void resolution(time &res);
+
+private:
+    glug_iuptime_timer icont_timer;
+    glug_uptime_timer *timer_impl;
 };
 
 } // namespace glug

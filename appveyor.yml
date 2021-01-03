@@ -49,11 +49,11 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmd: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"%GENERATOR%" -DBUILD_TESTS=ON ..
-  - sh: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"$GENERATOR" ${C_COMPILER} ${CXX_COMPILER} ${COMPILE_FLAGS} -DBUILD_TESTS=ON ..
+  - cmd: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"%GENERATOR%" %C_COMPILER% %CXX_COMPILER% %COMPILE_FLAGS% ..
+  - sh: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"$GENERATOR" ${C_COMPILER} ${CXX_COMPILER} ${COMPILE_FLAGS} ..
 
 before_test:
-  - cmake --build . --target check --config Release
+  - cmake --build . --config Release
 
 test_script:
   - ctest -V
