@@ -3,8 +3,8 @@ include(cmake/add_example.cmake)
 
 set(LIB glug_timer)
 find_package(${LIB} REQUIRED)
-set(GLUG_TARGET_NAME ${LIB}_ex)
-set(GLUG_TARGET_NAME++ ${LIB}_ex_cpp)
+set(GLUG_TARGET_NAME example-${LIB})
+set(GLUG_TARGET_NAME++ example-${LIB}_cpp)
 
 set(INSTALL_PATH example)
 

@@ -2,6 +2,7 @@ add_subdirectory(cunit/CUnit EXCLUDE_FROM_ALL)
 include(add_unit_test.cmake)
 
 set(TESTED_LIB glug_timer)
+find_package(${TESTED_LIB} REQUIRED)
 
 set(LIB_SRC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/src)
 set(LIB_INC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/include)
@@ -99,17 +100,13 @@ add_custom_target(
     DEPENDS
         CUnit ${TEST_TARGETS} ${TESTED_LIB}
 )
-
-add_custom_command(
-    TARGET
-        check POST_BUILD
-    # copy the CUnit library to the same directory as the test binaries
-    COMMAND
-        ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:CUnit> ${CMAKE_CURRENT_BINARY_DIR}
-#    TODO: for integration or e2e test
-#    # copy the library to the same directory as the test binaries
-#    COMMAND
-#        ${CMAKE_COMMAND} -E copy
-#            $<TARGET_FILE:${TESTED_LIB}> ${CMAKE_CURRENT_BINARY_DIR}
-)
+foreach(TEST_TARGET IN LISTS TEST_TARGETS)
+    add_custom_command(
+        TARGET
+            check POST_BUILD
+        # copy the CUnit library to the same directory as the test binaries
+        COMMAND
+            ${CMAKE_COMMAND} -E copy
+                $<TARGET_FILE:CUnit> $<TARGET_FILE_DIR:${TEST_TARGET}>
+    )
+endforeach()

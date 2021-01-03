@@ -1,5 +1,5 @@
-#ifndef GLUG_TIMER_H
-#define GLUG_TIMER_H
+#ifndef GLUG_CONTINUOUS_TIMER_H
+#define GLUG_CONTINUOUS_TIMER_H
 
 #include <glug/import.h>
 #include <glug/extern.h>
@@ -39,4 +39,4 @@ GLUG_LIB_API void glug_icontinuous_timer_init(struct glug_icontinuous_timer *);
 
 GLUG_EXTERN_END
 
-#endif // GLUG_TIMER_H
+#endif // GLUG_CONTINUOUS_TIMER_H
