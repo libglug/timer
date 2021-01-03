@@ -8,6 +8,7 @@ set(LIB_INC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/include)
 
 function(add_test_by_conf TEST_CONF)
     include(${TEST_CONF})
+    set(TEST_TARGET "test-${TEST_TARGET}")
 
     list(
         TRANSFORM
@@ -88,6 +89,8 @@ add_test_by_conf("bridge-win32.cmake")
 add_test_by_conf("bridge-osx.cmake")
 add_test_by_conf("bridge-linux.cmake")
 add_test_by_conf("bridge-bsd.cmake")
+add_test_by_conf("timer-continuous.cmake")
+add_test_by_conf("timer-uptime.cmake")
 
 # build all tests suites as part of the "check" target
 add_custom_target(
