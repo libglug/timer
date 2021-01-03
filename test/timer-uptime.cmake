@@ -1,11 +1,11 @@
-set(TEST_TARGET "continuous_timer")
+set(TEST_TARGET "uptime_timer")
 
-set(TEST_SOURCE suites/timer/continuous.c)
+set(TEST_SOURCE suites/timer/uptime.c)
 
 list(
     APPEND
     TEST_LIB_SOURCE
-    continuous_timer.c
+    uptime_timer.c
     timer.c
 )
 

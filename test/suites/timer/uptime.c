@@ -5,8 +5,8 @@
 #include <asserts/time.h>
 #include <asserts/frac.h>
 
-#include <glug/timer/continuous_timer_t.h>
-#include <glug/timer/continuous_timer.h>
+#include <glug/timer/uptime_timer_t.h>
+#include <glug/timer/uptime_timer.h>
 #include <glug/timer/time_t.h>
 #include <frac_t.h>
 #include <defs.h>
@@ -16,42 +16,42 @@
 
 #include <stdlib.h>
 
-static struct glug_icontinuous_timer icont;
-static struct glug_continuous_timer *timer;
+static struct glug_iuptime_timer iuptime;
+static struct glug_uptime_timer *timer;
 
 static struct glug_allocator allocator;
 
 void before_each(void)
 {
-    memset(&icont, 0, sizeof(icont));
+    memset(&iuptime, 0, sizeof(iuptime));
 
-    CU_ASSERT_PTR_NULL_FATAL(icont.alloc);
-    CU_ASSERT_PTR_NULL_FATAL(icont.free);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.alloc);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.free);
 
-    CU_ASSERT_PTR_NULL_FATAL(icont.start);
-    CU_ASSERT_PTR_NULL_FATAL(icont.pause);
-    CU_ASSERT_PTR_NULL_FATAL(icont.reset);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.start);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.pause);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.reset);
 
-    CU_ASSERT_PTR_NULL_FATAL(icont.delta);
-    CU_ASSERT_PTR_NULL_FATAL(icont.run_time);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.delta);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.run_time);
 
-    CU_ASSERT_PTR_NULL_FATAL(icont.resolution);
-    CU_ASSERT_PTR_NULL_FATAL(icont.state);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.resolution);
+    CU_ASSERT_PTR_NULL_FATAL(iuptime.state);
 
-    glug_icontinuous_timer_init(&icont);
+    glug_iuptime_timer_init(&iuptime);
 
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.alloc);
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.free);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.alloc);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.free);
 
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.start);
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.pause);
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.reset);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.start);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.pause);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.reset);
 
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.delta);
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.run_time);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.delta);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.run_time);
 
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.resolution);
-    CU_ASSERT_PTR_NOT_NULL_FATAL(icont.state);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.resolution);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(iuptime.state);
 
     timer = NULL;
 
@@ -59,19 +59,19 @@ void before_each(void)
     reset_alloc_count();
     reset_free_count();
 
-    icont.alloc(&allocator, &timer);
+    iuptime.alloc(&allocator, &timer);
 
     CU_ASSERT_PTR_NOT_NULL_FATAL(timer);
 
     uint64_t tick = 0;
-    set_continuous_ticks(&tick);
-    set_continuous_res(&(struct glug_time){ 0, 0 });
-    set_continuous_scale(&(struct frac){ 1, 1 });
+    set_uptime_ticks(&tick);
+    set_uptime_res(&(struct glug_time){ 0, 0 });
+    set_uptime_scale(&(struct frac){ 1, 1 });
 }
 
 void after_each(void)
 {
-    icont.free(&timer);
+    iuptime.free(&timer);
 }
 
 void test_timer_alloc(void)
@@ -82,23 +82,23 @@ void test_timer_alloc(void)
 
 void test_timer_free(void)
 {
-    icont.free(&timer);
+    iuptime.free(&timer);
 
     CU_ASSERT_PTR_NULL(timer);
     CU_ASSERT_EQUAL(alloc_count(), 1);
     CU_ASSERT_EQUAL(free_count(), 1);
 
     // re-alloc the timer for the free in before_each
-    icont.alloc(&allocator, &timer);
+    iuptime.alloc(&allocator, &timer);
 }
 
 void test_timer_resolution(void)
 {
     struct glug_time expected = { 2, 500 };
-    set_continuous_res(&expected);
+    set_uptime_res(&expected);
 
     struct glug_time actual;
-    icont.resolution(&actual);
+    iuptime.resolution(&actual);
 
     assert_time_equal(&expected, &actual);
 }
@@ -108,24 +108,24 @@ void test_stopped_timer(void)
     struct glug_time expected_delta = { 0, 0 }, expected_run = { 0, 0 };
 
     struct glug_time actual_delta;
-    icont.delta(timer, &actual_delta);
+    iuptime.delta(timer, &actual_delta);
 
     assert_time_equal(&expected_delta, &actual_delta);
 
     struct glug_time actual_run;
-    icont.delta(timer, &actual_run);
+    iuptime.delta(timer, &actual_run);
 
     assert_time_equal(&expected_run, &actual_run);
 
     // start, pause, and reset the timer
-    icont.start(timer);
+    iuptime.start(timer);
     uint64_t ticks = 100;
-    set_continuous_ticks(&ticks); // advance time a bit
-    icont.pause(timer);
+    set_uptime_ticks(&ticks); // advance time a bit
+    iuptime.pause(timer);
 
-    icont.reset(timer);
-    icont.delta(timer, &actual_delta);
-    icont.run_time(timer, &actual_run);
+    iuptime.reset(timer);
+    iuptime.delta(timer, &actual_delta);
+    iuptime.run_time(timer, &actual_run);
 
     assert_time_equal(&expected_delta, &actual_delta);
     assert_time_equal(&expected_run, &actual_run);
@@ -138,14 +138,14 @@ void test_running_timer(void)
     struct scale_args scale_args_delta, scale_args_run;
 
     // start the timer
-    icont.start(timer);
+    iuptime.start(timer);
     ticks = 2500;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
     struct glug_time actual_delta, actual_run;
-    icont.delta(timer, &actual_delta);
+    iuptime.delta(timer, &actual_delta);
     scale_args_delta = get_scale_last_args();
-    icont.run_time(timer, &actual_run);
+    iuptime.run_time(timer, &actual_run);
     scale_args_run = get_scale_last_args();
 
     expected_delta.nsec = (uint32_t)ticks;
@@ -161,11 +161,11 @@ void test_running_timer(void)
 
     // continue running and get totals again
     ticks = 70000;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.delta(timer, &actual_delta);
+    iuptime.delta(timer, &actual_delta);
     scale_args_delta = get_scale_last_args();
-    icont.run_time(timer, &actual_run);
+    iuptime.run_time(timer, &actual_run);
     scale_args_run = get_scale_last_args();
 
     expected_delta.nsec = (uint32_t)(ticks - expected_delta.nsec);
@@ -181,14 +181,14 @@ void test_running_timer(void)
 
     // reset the timer without pausing
     ticks = 75000;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.reset(timer);
+    iuptime.reset(timer);
     ticks = 1000000;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.delta(timer, &actual_delta);
-    icont.run_time(timer, &actual_run);
+    iuptime.delta(timer, &actual_delta);
+    iuptime.run_time(timer, &actual_run);
 
     expected_delta.nsec = (uint32_t)(ticks - 75000);
     expected_run.nsec = expected_delta.nsec;
@@ -202,14 +202,14 @@ void test_paused_timer(void)
     struct glug_time expected_delta = { 0, 0 }, expected_run = { 0, 0 }, clear_time = { 0, 0 };
 
     // start and pause the timer
-    icont.start(timer);
+    iuptime.start(timer);
     ticks = 500; // advance time
-    set_continuous_ticks(&ticks);
-    icont.pause(timer);
+    set_uptime_ticks(&ticks);
+    iuptime.pause(timer);
 
     struct glug_time actual_delta, actual_run;
-    icont.delta(timer, &actual_delta);
-    icont.run_time(timer, &actual_run);
+    iuptime.delta(timer, &actual_delta);
+    iuptime.run_time(timer, &actual_run);
 
     expected_delta.nsec = (uint32_t)ticks;
     expected_run.nsec += (uint32_t)ticks;
@@ -218,23 +218,23 @@ void test_paused_timer(void)
 
     // reading delta again will measure time since last read (while paused: 0) -- run time unchanged
     ticks = 1500; // advance time again
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.delta(timer, &actual_delta);
-    icont.run_time(timer, &actual_run);
+    iuptime.delta(timer, &actual_delta);
+    iuptime.run_time(timer, &actual_run);
     assert_time_equal(&clear_time, &actual_delta);
     assert_time_equal(&expected_run, &actual_run);
 
     // starting the timer will not have an effect on the delta or run durations
     ticks = 2500; // advance time for the end of the pause
-    set_continuous_ticks(&ticks);
-    icont.start(timer);
+    set_uptime_ticks(&ticks);
+    iuptime.start(timer);
 
     ticks = NSEC_PER_SEC + 3100; // advance by 1s + 600ns
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.delta(timer, &actual_delta);
-    icont.run_time(timer, &actual_run);
+    iuptime.delta(timer, &actual_delta);
+    iuptime.run_time(timer, &actual_run);
 
     expected_delta.nsec = 3100 - 2500;
     expected_delta.sec = 1;
@@ -247,70 +247,70 @@ void test_paused_timer(void)
 void test_timer_state(void)
 {
     // starts stopped
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_stopped);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_stopped);
 
     // resetting while stopped -> stopped
-    icont.reset(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_stopped);
+    iuptime.reset(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_stopped);
 
     // pausing while stopped -> stopped
-    icont.pause(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_stopped);
+    iuptime.pause(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_stopped);
 
     // starting while stopped -> running
-    icont.start(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_running);
+    iuptime.start(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_running);
 
     // starting while running -> running
-    icont.start(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_running);
+    iuptime.start(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_running);
 
     // resetting while running -> running
-    icont.reset(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_running);
+    iuptime.reset(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_running);
 
     // pausing while running -> paused
-    icont.pause(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_paused);
+    iuptime.pause(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_paused);
 
     // pausing while paused -> paused
-    icont.pause(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_paused);
+    iuptime.pause(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_paused);
 
     // starting while paused -> running
-    icont.start(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_running);
+    iuptime.start(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_running);
 
     // resetting while paused -> stopped
-    icont.pause(timer);
-    icont.reset(timer);
-    CU_ASSERT_EQUAL(icont.state(timer), glug_ts_stopped);
+    iuptime.pause(timer);
+    iuptime.reset(timer);
+    CU_ASSERT_EQUAL(iuptime.state(timer), glug_ts_stopped);
 }
 
 void test_multiple_timers(void)
 {
-    struct glug_continuous_timer *timer2 = NULL;
+    struct glug_uptime_timer *timer2 = NULL;
     struct glug_time expected_delta1 = { 0, 0 }, expected_run1 = { 0, 0 };
 
-    icont.alloc(&allocator, &timer2);
+    iuptime.alloc(&allocator, &timer2);
 
-    icont.start(timer);
+    iuptime.start(timer);
 
     uint64_t ticks = 100;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
     struct glug_time expected_delta2 = { 0, ticks }, expected_run2 = { 0, ticks };
-    icont.start(timer2);
+    iuptime.start(timer2);
 
     struct glug_time actual_delta1, actual_run1, actual_delta2, actual_run2;
 
     ticks = 1100;
-    set_continuous_ticks(&ticks);
+    set_uptime_ticks(&ticks);
 
-    icont.delta(timer, &actual_delta1);
-    icont.run_time(timer, &actual_run1);
-    icont.delta(timer2, &actual_delta2);
-    icont.run_time(timer2, &actual_run2);
+    iuptime.delta(timer, &actual_delta1);
+    iuptime.run_time(timer, &actual_run1);
+    iuptime.delta(timer2, &actual_delta2);
+    iuptime.run_time(timer2, &actual_run2);
 
     expected_delta1.nsec = ticks;
     expected_run1.nsec = ticks;
@@ -324,7 +324,7 @@ void test_multiple_timers(void)
 
 int main(void)
 {
-    CU_pSuite suite = create_suite("continuous_timer", before_each, after_each);
+    CU_pSuite suite = create_suite("uptime_timer", before_each, after_each);
     if (!suite) return CU_get_error();
 
     CU_add_test(suite, "alloc", test_timer_alloc);
