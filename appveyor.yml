@@ -51,9 +51,10 @@ build_script:
   - mkdir build && cd build
   - cmd: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"%GENERATOR%" %C_COMPILER% %CXX_COMPILER% %COMPILE_FLAGS% ..
   - sh: cmake -DCMAKE_BUILD_TYPE=RELEASE -G"$GENERATOR" ${C_COMPILER} ${CXX_COMPILER} ${COMPILE_FLAGS} ..
+  - cmake --build . --config Release
 
 before_test:
-  - cmake --build . --config Release
+  - cmake --build . --target examples check --config Release
 
 test_script:
   - ctest -V
