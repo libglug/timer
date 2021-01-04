@@ -1,11 +1,10 @@
 add_subdirectory(cunit/CUnit EXCLUDE_FROM_ALL)
 include(add_unit_test.cmake)
 
-set(TESTED_LIB glug_timer)
-find_package(${TESTED_LIB} REQUIRED)
+find_package(glug_timer REQUIRED)
 
-set(LIB_SRC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/src)
-set(LIB_INC_ROOT ${CMAKE_SOURCE_DIR}/${TESTED_LIB}/include)
+set(LIB_SRC_ROOT ${CMAKE_SOURCE_DIR}/glug_timer/src)
+set(LIB_INC_ROOT ${CMAKE_SOURCE_DIR}/glug_timer/include)
 
 function(add_test_by_conf TEST_CONF)
     include(${TEST_CONF})
@@ -93,17 +92,10 @@ add_test_by_conf("bridge-bsd.cmake")
 add_test_by_conf("timer-continuous.cmake")
 add_test_by_conf("timer-uptime.cmake")
 
-# build all tests suites as part of the "check" target
-add_custom_target(
-    check
-    ALL
-    DEPENDS
-        CUnit ${TEST_TARGETS} ${TESTED_LIB}
-)
 foreach(TEST_TARGET IN LISTS TEST_TARGETS)
     add_custom_command(
         TARGET
-            check POST_BUILD
+            ${TEST_TARGET} POST_BUILD
         # copy the CUnit library to the same directory as the test binaries
         COMMAND
             ${CMAKE_COMMAND} -E copy

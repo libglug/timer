@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.7)
 
 include(cmake/version.cmake)
 
@@ -97,7 +97,7 @@ list(
 
 add_gluglib(
     TARGET_NAME
-        ${PROJECT_NAME}
+        glug_timer
     STATIC_BUILD
         ${BUILD_STATIC}
     WIN32_SOURCE
@@ -114,13 +114,13 @@ add_gluglib(
 )
 
 target_compile_definitions(
-    ${PROJECT_NAME}
+    glug_timer
     PRIVATE
         _WIN32_WINNT=0x0601
 )
 
 target_include_directories(
-    ${PROJECT_NAME}
+    glug_timer
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CONFIGURED_OUT_DIR}/include> # because "version.h" is a configured file
@@ -134,9 +134,9 @@ target_include_directories(
 # install the library
 install(
     TARGETS
-        ${PROJECT_NAME}
+        glug_timer
     EXPORT
-        Find${PROJECT_NAME}
+        Find-glug_timer
     DESTINATION
         lib
 )
@@ -170,18 +170,18 @@ install(
 )
 
 # export the package to be included in other projects
-export(PACKAGE ${PROJECT_NAME})
+export(PACKAGE glug_timer)
 export(
     TARGETS
-        ${PROJECT_NAME}
+        glug_timer
     FILE
-        ${PROJECT_NAME}-config.cmake
+        glug_timer-config.cmake
 )
 
 # install export file
 install(
     EXPORT
-        Find${PROJECT_NAME}
+        Find-glug_timer
     DESTINATION
         cmake
 )

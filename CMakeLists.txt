@@ -1,39 +1,66 @@
-cmake_minimum_required(VERSION 3.0)
-cmake_policy(SET CMP0054 NEW)
-set(GLUG_LIB_TARGET glug_timer)
-project(${GLUG_LIB_TARGET}_suite)
+cmake_minimum_required(VERSION 3.7)
 
-# disable find_package in any subproject for finding this lib
+project(glug_timer_suite)
+
+# disable find_package in any subproject when trying to find the main project library
 macro(find_package)
-    if (NOT "${ARGV0}" STREQUAL ${GLUG_LIB_TARGET})
+    if (NOT "${ARGV0}" STREQUAL glug_timer)
         _find_package(${ARGV})
     endif()
 endmacro()
 
 # add the library subproject
-add_subdirectory(${GLUG_LIB_TARGET})
+add_subdirectory(glug_timer)
 
-# build and install examples
-add_subdirectory(example)
+# add the "examples" target to build all examples
+add_subdirectory(example EXCLUDE_FROM_ALL)
 
-# copy the glug lib to the example build dir if it's shared
-if (NOT ${BUILD_STATIC})
+get_property(
+    EXAMPLE_TARGETS
+    DIRECTORY
+        example
+    PROPERTY
+        BUILDSYSTEM_TARGETS
+)
+
+add_custom_target(
+    examples
+    DEPENDS
+        ${EXAMPLE_TARGETS}
+)
+
+# create a custom "install-examples" target to install the examples without being part of ALL
+add_custom_target(
+    install-examples
+    DEPENDS
+        ${EXAMPLE_TARGETS}
+)
+
+foreach(EXAMPLE_TARGET IN LISTS EXAMPLE_TARGETS)
     add_custom_command(
-        OUTPUT
-            copy_lib POST_BUILD
+        TARGET
+            install-examples
         COMMAND
             ${CMAKE_COMMAND} -E copy
-                 $<TARGET_FILE:${GLUG_LIB_TARGET}> $<TARGET_FILE_DIR:example-${GLUG_LIB_TARGET}>
-        DEPENDS
-            ${GLUG_LIB_TARGET}
+                $<TARGET_FILE:${EXAMPLE_TARGET}>
+                ${CMAKE_INSTALL_PREFIX}/examples/$<TARGET_FILE_NAME:${EXAMPLE_TARGET}>
     )
-    add_custom_target(
-        copy_lib_example
-        ALL
-        DEPENDS
-            copy_lib
-    )
-endif()
+endforeach()
 
+# add the "check" target to build all tests and enable testing to run them using ctest
 enable_testing()
-add_subdirectory(test)
+add_subdirectory(test EXCLUDE_FROM_ALL)
+
+get_property(
+    TEST_TARGETS
+    DIRECTORY
+        test
+    PROPERTY
+        BUILDSYSTEM_TARGETS
+)
+
+add_custom_target(
+    check
+    DEPENDS
+        ${TEST_TARGETS}
+)
