@@ -7,95 +7,93 @@ namespace glug
 continuous_timer::continuous_timer()
 {
     struct glug_allocator alloc = { malloc, free };
-    glug_icontinuous_timer_init(&icont_timer);
-    icont_timer.alloc(&alloc, &timer_impl);
+    glug_cont_timer_alloc(&alloc, &timer_impl);
 }
 
 continuous_timer::~continuous_timer()
 {
-    icont_timer.free(&timer_impl);
+    glug_cont_timer_free(&timer_impl);
 }
 
 void continuous_timer::start()
 {
-    icont_timer.start(timer_impl);
+    glug_cont_timer_start(timer_impl);
 }
 
 void continuous_timer::pause()
 {
-    icont_timer.pause(timer_impl);
+    glug_cont_timer_pause(timer_impl);
 }
 
 void continuous_timer::reset()
 {
-    icont_timer.reset(timer_impl);
+    glug_cont_timer_reset(timer_impl);
 }
 
 void continuous_timer::delta(time &delta)
 {
-    icont_timer.delta(timer_impl, &delta);
+    glug_cont_timer_delta(timer_impl, &delta);
 }
 
 void continuous_timer::duration(time &run_time) const
 {
-    icont_timer.run_time(timer_impl, &run_time);
+    glug_cont_timer_run_time(timer_impl, &run_time);
 }
 
 enum glug_timer_state continuous_timer::state() const
 {
-    return icont_timer.state(timer_impl);
+    return glug_cont_timer_state(timer_impl);
 }
 
 void continuous_timer::resolution(time &res)
 {
-    icont_timer.resolution(&res);
+    glug_cont_timer_resolution(&res);
 }
 
 uptime_timer::uptime_timer()
 {
     struct glug_allocator alloc = { malloc, free };
-    glug_iuptime_timer_init(&icont_timer);
-    icont_timer.alloc(&alloc, &timer_impl);
+    glug_uptime_timer_alloc(&alloc, &timer_impl);
 }
 
 uptime_timer::~uptime_timer()
 {
-    icont_timer.free(&timer_impl);
+    glug_uptime_timer_free(&timer_impl);
 }
 
 void uptime_timer::start()
 {
-    icont_timer.start(timer_impl);
+    glug_uptime_timer_start(timer_impl);
 }
 
 void uptime_timer::pause()
 {
-    icont_timer.pause(timer_impl);
+    glug_uptime_timer_pause(timer_impl);
 }
 
 void uptime_timer::reset()
 {
-    icont_timer.reset(timer_impl);
+    glug_uptime_timer_reset(timer_impl);
 }
 
 void uptime_timer::delta(time &delta)
 {
-    icont_timer.delta(timer_impl, &delta);
+    glug_uptime_timer_delta(timer_impl, &delta);
 }
 
 void uptime_timer::duration(time &run_time) const
 {
-    icont_timer.run_time(timer_impl, &run_time);
+    glug_uptime_timer_run_time(timer_impl, &run_time);
 }
 
 enum glug_timer_state uptime_timer::state() const
 {
-    return icont_timer.state(timer_impl);
+    return glug_uptime_timer_state(timer_impl);
 }
 
 void uptime_timer::resolution(time &res)
 {
-    icont_timer.resolution(&res);
+    glug_uptime_timer_resolution(&res);
 }
 
 } // namespace glug

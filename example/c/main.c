@@ -39,14 +39,11 @@ int main(int argc, char **argv)
         free
     };
 
-    struct glug_icontinuous_timer itimer;
-    glug_icontinuous_timer_init(&itimer);
-
     struct glug_continuous_timer *t;
-    itimer.alloc(&alloc, &t);
+    glug_cont_timer_alloc(&alloc, &t);
 
     struct glug_time time;
-    itimer.resolution(&time);
+    glug_cont_timer_resolution(&time);
 
     printf("timer resolution: %uns\n", time.nsec);
 
@@ -59,20 +56,20 @@ int main(int argc, char **argv)
         switch (ctrl)
         {
         case 's':
-            itimer.start(t);
+            glug_cont_timer_start(t);
             break;
         case 'p':
-            itimer.pause(t);
+            glug_cont_timer_pause(t);
             break;
         case 'r':
-            itimer.reset(t);
+            glug_cont_timer_reset(t);
             break;
         case 't':
-            itimer.run_time(t, &time);
+            glug_cont_timer_run_time(t, &time);
             printf("total run time: %.3fms\n", msec_from_glug_time(&time));
             break;
         case 'd':
-            itimer.delta(t, &time);
+            glug_cont_timer_delta(t, &time);
             printf("delta: %.3fms\n", msec_from_glug_time(&time));
             break;
         }

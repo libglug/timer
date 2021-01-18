@@ -12,30 +12,21 @@ GLUG_EXTERN_START
 struct glug_uptime_timer;
 struct glug_time;
 
-struct glug_iuptime_timer
-{
-    void                    (* alloc)(const struct glug_allocator *, struct glug_uptime_timer **);
-    void                    (* free) (struct glug_uptime_timer **);
+GLUG_LIB_API void                   glug_uptime_timer_alloc(const struct glug_allocator *, struct glug_uptime_timer **);
+GLUG_LIB_API void                   glug_uptime_timer_free (struct glug_uptime_timer **);
 
-    // controls
-    void                    (* start)(struct glug_uptime_timer *);
-    void                    (* pause)(struct glug_uptime_timer *);
-    void                    (* reset)(struct glug_uptime_timer *);
+// controls
+GLUG_LIB_API void                   glug_uptime_timer_start(struct glug_uptime_timer *);
+GLUG_LIB_API void                   glug_uptime_timer_pause(struct glug_uptime_timer *);
+GLUG_LIB_API void                   glug_uptime_timer_reset(struct glug_uptime_timer *);
 
-    // read
-    void                    (* delta)   (struct glug_uptime_timer *, struct glug_time *);
-    void                    (* run_time)(struct glug_uptime_timer *, struct glug_time *);
+// read
+GLUG_LIB_API void                   glug_uptime_timer_delta   (struct glug_uptime_timer *, struct glug_time *);
+GLUG_LIB_API void                   glug_uptime_timer_run_time(struct glug_uptime_timer *, struct glug_time *);
 
-    // state
-    void                    (* resolution)(struct glug_time *);
-    enum glug_timer_state   (* state)     (const struct glug_uptime_timer *);
-};
-
-#ifdef GLUG_USE_TYPEDEFS
-    typedef struct glug_iuptime_timer     glug_iuptime_timer_t;
-#endif
-
-GLUG_LIB_API void glug_iuptime_timer_init(struct glug_iuptime_timer *);
+// state
+GLUG_LIB_API enum glug_timer_state  glug_uptime_timer_state     (const struct glug_uptime_timer *);
+GLUG_LIB_API void                   glug_uptime_timer_resolution(struct glug_time *);
 
 GLUG_EXTERN_END
 
