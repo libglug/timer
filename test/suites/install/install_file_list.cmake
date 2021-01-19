@@ -25,6 +25,16 @@ list(
     timer/bindings/c++/continuous_timer.inl
     timer/bindings/c++/uptime_timer.hpp
     timer/bindings/c++/uptime_timer.inl
+    timer/bindings/java
+    timer/bindings/java/org
+    timer/bindings/java/org/libglug
+    timer/bindings/java/org/libglug/Allocator.java
+    timer/bindings/java/org/libglug/DefaultAllocator.java
+    timer/bindings/java/org/libglug/timer
+    timer/bindings/java/org/libglug/timer/ContinuousTimer.java
+    timer/bindings/java/org/libglug/timer/State.java
+    timer/bindings/java/org/libglug/timer/Time.java
+    timer/bindings/java/org/libglug/timer/UptimeTimer.java
     timer/continuous_timer.h
     timer/continuous_timer_t.h
     timer/time_t.h
@@ -53,6 +63,7 @@ list(
     EXPECTED_LIBS_WIN_MSVC
     glug_timer.dll
     glug_timer.lib
+    org_libglug_timer.jar
 )
 
 list(
@@ -60,18 +71,21 @@ list(
     EXPECTED_LIBS_WIN_MINGW
     libglug_timer.dll
     libglug_timer.dll.a
+    org_libglug_timer.jar
 )
 
 list(
     APPEND
     EXPECTED_LIBS_MAC
     libglug_timer.dylib
+    org_libglug_timer.jar
 )
 
 list(
     APPEND
     EXPECTED_LIBS_BSD_LIN
     libglug_timer.so
+    org_libglug_timer.jar
 )
 
 list(

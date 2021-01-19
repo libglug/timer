@@ -20,6 +20,12 @@ project(
 
 option(BUILD_STATIC "Build as a static library instead of shared?" OFF)
 
+set(BUILD_WITH_JNI "none" CACHE STRING "Build with JNI support?")
+set_property(CACHE BUILD_WITH_JNI PROPERTY STRINGS "none" "internal" "external")
+if (NOT ${BUILD_WITH_JNI} STREQUAL "none")
+    set(JNI_ON TRUE)
+endif()
+
 detect_os(IS_WIN IS_OSX IS_LIN IS_BSD)
 
 # configure files
@@ -32,12 +38,15 @@ include(windows.cmake)
 include(osx.cmake)
 include(linux.cmake)
 include(bsd.cmake)
+include(jni.cmake)
 
-set_compilation_props("${BINDINGS}"   FALSE)
-set_compilation_props("${WIN_SOURCE}" FALSE)
-set_compilation_props("${OSX_SOURCE}" FALSE)
-set_compilation_props("${LIN_SOURCE}" FALSE)
-set_compilation_props("${BSD_SOURCE}" FALSE)
+set_compilation_props("${WIN_SOURCE}"    FALSE)
+set_compilation_props("${OSX_SOURCE}"    FALSE)
+set_compilation_props("${LIN_SOURCE}"    FALSE)
+set_compilation_props("${BSD_SOURCE}"    FALSE)
+set_compilation_props("${BINDINGS}"      FALSE)
+set_compilation_props("${JAVA_BINDINGS}" FALSE)
+set_compilation_props("${JNI_SOURCE}"    FALSE)
 
 if (${IS_WIN})
     set(PLATFORM_SRC  "${WIN_SOURCE}")
@@ -64,14 +73,46 @@ endif()
 
 add_library(
     glug_timer
-    SHARED
+    ${LIB_TYPE}
     ${COMMON_SOURCE}
-    ${BINDINGS}
     ${WIN_SOURCE}
     ${OSX_SOURCE}
     ${LIN_SOURCE}
     ${BSD_SOURCE}
+    ${BINDINGS}
+    ${JAVA_BINDINGS}
+    ${JNI_SOURCE}
 )
+
+if (${JNI_ON})
+    find_package(Java COMPONENTS Development)
+    find_package(JNI REQUIRED)
+    include(UseJava)
+
+    set_compilation_props("${JNI_SOURCE}" TRUE)
+    if (${BUILD_WITH_JNI} STREQUAL "internal")
+        target_include_directories(
+            glug_timer
+            PRIVATE
+                $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>
+        )
+    else()
+#        add_library(
+#            glug_timer_jni
+#            ${LIB_TYPE}
+#            ${JNI_SOURCE}
+#        )
+#        target_link_libraries(glug_timer_jni glug_timer)
+
+#        target_include_directories(
+#            glug_timer_jni
+#            PRIVATE
+#                $<BUILD_INTERFACE:${JNI_INCLUDE_DIRS}>
+#        )
+    endif()
+
+    add_jar(org_libglug_timer ${JAVA_BINDINGS})
+endif()
 
 link_libs(glug_timer "${PLATFORM_LIBS}")
 set_export_defs(glug_timer ${BUILD_STATIC} ${IS_WIN})
@@ -105,6 +146,9 @@ install(
 )
 
 # install the lib's headers
+if (NOT ${JNI_ON})
+    set(EXCLUDE_JAVA EXCLUDE)
+endif()
 install(
     DIRECTORY
         include/
@@ -113,7 +157,7 @@ install(
     FILES_MATCHING
         PATTERN "*"
         PATTERN "*.in" EXCLUDE
-
+        PATTERN "*.java" ${EXCLUDE_JAVA}
 )
 
 # install the lib's configured version file
@@ -151,3 +195,20 @@ install(
     DESTINATION
         cmake
 )
+
+if (${JNI_ON})
+# install and export the jar
+    get_target_property(TIMER_JAR org_libglug_timer JAR_FILE)
+    install(
+        FILES
+            ${TIMER_JAR}
+        DESTINATION
+            lib
+    )
+    export_jars(
+        TARGETS
+            org_libglug_timer
+        FILE
+            glug-timer-jar.cmake)
+
+endif()
