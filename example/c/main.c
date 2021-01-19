@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#include <glug/std_allocator.inl>
+
+
 void print_controls(void)
 {
     printf("--------------------------------\n"
@@ -33,14 +36,8 @@ int main(int argc, char **argv)
            GLUG_TIMER_VERSION_MINOR,
            GLUG_TIMER_VERSION_PATCH);
 
-    struct glug_allocator alloc =
-    {
-        malloc,
-        free
-    };
-
     struct glug_continuous_timer *t;
-    glug_cont_timer_alloc(&alloc, &t);
+    glug_cont_timer_alloc(&std_allocator, &t);
 
     struct glug_time time;
     glug_cont_timer_resolution(&time);
@@ -74,6 +71,8 @@ int main(int argc, char **argv)
             break;
         }
     }
+
+    glug_cont_timer_free(&t);
 
     return 0;
 }

@@ -2,6 +2,8 @@
 #include "timer.hpp"
 #include <glug/timer/version.h>
 
+#include <glug/std_allocator.inl>
+
 void print_controls()
 {
     std::cout << "--------------------------------" << std::endl
@@ -26,7 +28,7 @@ int main(int, char **)
               << GLUG_TIMER_VERSION_MINOR << "."
               << GLUG_TIMER_VERSION_PATCH << std::endl;
 
-    glug::continuous_timer t;
+    glug::continuous_timer t(std_allocator);
 
     glug::time time;
     t.resolution(time);
