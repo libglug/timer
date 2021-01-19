@@ -5,14 +5,18 @@
 static uint32_t allocs = 0;
 static uint32_t frees = 0;
 
-static void *counted_alloc(size_t nbytes)
+static void *counted_alloc(size_t nbytes, void *context)
 {
+    (void) context;
+
     ++allocs;
     return malloc(nbytes);
 }
 
-static void counted_free(void *block)
+static void counted_free(void *block, void *context)
 {
+    (void) context;
+
     ++frees;
     free(block);
 }
@@ -23,6 +27,7 @@ struct glug_allocator get_counted_allocator(void)
     {
         counted_alloc,
         counted_free,
+        NULL
     };
 }
 

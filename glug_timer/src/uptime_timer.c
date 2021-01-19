@@ -5,15 +5,15 @@
 
 void glug_uptime_timer_alloc(const struct glug_allocator *alloc, struct glug_uptime_timer **timer)
 {
-    *timer = alloc->malloc(sizeof(**timer));
-    (*timer)->base.free = alloc->free;
+    *timer = alloc->malloc(sizeof(**timer), alloc->context);
+    (*timer)->base.allocator = *alloc;
     (*timer)->base.state = glug_ts_stopped;
     uptime_tick_scale(&(*timer)->base.tick_scale);
 }
 
 void glug_uptime_timer_free(struct glug_uptime_timer **timer)
 {
-    (*timer)->base.free(*timer);
+    (*timer)->base.allocator.free(*timer, (*timer)->base.allocator.context);
     *timer = NULL;
 }
 

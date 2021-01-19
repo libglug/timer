@@ -15,7 +15,7 @@ using time = glug_time;
 class continuous_timer
 {
 public:
-    continuous_timer();
+    continuous_timer(glug_allocator &);
     virtual ~continuous_timer();
 
     void start();
@@ -35,7 +35,7 @@ private:
 class uptime_timer
 {
 public:
-    uptime_timer();
+    uptime_timer(glug_allocator &);
     virtual ~uptime_timer();
 
     void start();

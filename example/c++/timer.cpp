@@ -4,10 +4,9 @@
 namespace glug
 {
 
-continuous_timer::continuous_timer()
+continuous_timer::continuous_timer(glug_allocator &allocator)
 {
-    struct glug_allocator alloc = { malloc, free };
-    glug_cont_timer_alloc(&alloc, &timer_impl);
+    glug_cont_timer_alloc(&allocator, &timer_impl);
 }
 
 continuous_timer::~continuous_timer()
@@ -50,10 +49,9 @@ void continuous_timer::resolution(time &res)
     glug_cont_timer_resolution(&res);
 }
 
-uptime_timer::uptime_timer()
+uptime_timer::uptime_timer(glug_allocator &allocator)
 {
-    struct glug_allocator alloc = { malloc, free };
-    glug_uptime_timer_alloc(&alloc, &timer_impl);
+    glug_uptime_timer_alloc(&allocator, &timer_impl);
 }
 
 uptime_timer::~uptime_timer()
