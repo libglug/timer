@@ -26,10 +26,9 @@ public:
     void duration(time &) const;
 
     enum glug_timer_state state() const;
-    void resolution(time &res);
+    static void resolution(time &res);
 
 private:
-    glug_icontinuous_timer icont_timer;
     glug_continuous_timer *timer_impl;
 };
 
@@ -47,10 +46,9 @@ public:
     void duration(time &) const;
 
     enum glug_timer_state state() const;
-    void resolution(time &res);
+    static void resolution(time &res);
 
 private:
-    glug_iuptime_timer icont_timer;
     glug_uptime_timer *timer_impl;
 };
 
