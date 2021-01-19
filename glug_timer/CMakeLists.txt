@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 
 include(cmake/version.cmake)
+include(cmake/set_compilation_props.cmake)
 
 parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META" "VER_REV" "VER_HASH" "VER_FULL")
 set(FULL_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META}")
@@ -22,13 +23,14 @@ set(SRC_ROOT src)
 set(INC_ROOT include/glug)
 
 # configure files
-set(CONFIGURED_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/configured)
-configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_OUT_DIR}/include/glug/timer/version.h)
+set(CONFIGURED_OUT_ROOT ${CMAKE_CURRENT_BINARY_DIR}/configured)
+configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_OUT_ROOT}/include/glug/timer/version.h)
 
 list(
     APPEND
     COMMON_SOURCE
     ${COM_ROOT}/allocator_t.h
+    ${COM_ROOT}/std_allocator.inl
     ${COM_ROOT}/bool.h
     ${COM_ROOT}/extern.h
     ${COM_ROOT}/import.h
@@ -108,9 +110,25 @@ add_gluglib(
         ${LINUX_SOURCE}
     BSD_SOURCE
         ${BSD_SOURCE}
-    WIN32_LIBS
-    MACOS_LIBS
-    LINUX_LIBS
+)
+
+# add bindings headers
+set(BIND_ROOT ${INC_ROOT}/timer/bindings)
+list(
+    APPEND
+    BINDINGS
+    ${BIND_ROOT}/c++/continuous_timer.hpp
+    ${BIND_ROOT}/c++/continuous_timer.inl
+    ${BIND_ROOT}/c++/uptime_timer.hpp
+    ${BIND_ROOT}/c++/uptime_timer.inl
+)
+
+set_compilation_props("${BINDINGS}" FALSE)
+
+list(
+    APPEND
+    COMMON_SOURCE
+    ${BINDINGS}
 )
 
 target_compile_definitions(
@@ -123,7 +141,7 @@ target_include_directories(
     glug_timer
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CONFIGURED_OUT_DIR}/include> # because "version.h" is a configured file
+        $<BUILD_INTERFACE:${CONFIGURED_OUT_ROOT}/include> # because "version.h" is a configured file
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common_headers/include>
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -147,14 +165,16 @@ install(
         include/
     DESTINATION
         include
-    FILES_MATCHING PATTERN
-        "*.h"
+    FILES_MATCHING
+        PATTERN "*"
+        PATTERN "*.in" EXCLUDE
+
 )
 
 # install the lib's configured version file
 install(
     FILES
-        ${CONFIGURED_OUT_DIR}/include/glug/timer/version.h
+        ${CONFIGURED_OUT_ROOT}/include/glug/timer/version.h
     DESTINATION
         include/glug/timer
 )
@@ -165,8 +185,9 @@ install(
         common_headers/include/
     DESTINATION
         include
-    FILES_MATCHING PATTERN
-        "*.h"
+    FILES_MATCHING
+        PATTERN "*"
+        PATTERN "*.in$" EXCLUDE
 )
 
 # export the package to be included in other projects

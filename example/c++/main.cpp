@@ -1,5 +1,5 @@
 #include <iostream>
-#include "timer.hpp"
+#include <glug/timer/bindings/c++/continuous_timer.hpp>
 #include <glug/timer/version.h>
 
 #include <glug/std_allocator.inl>

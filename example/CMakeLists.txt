@@ -38,7 +38,6 @@ add_example(
         ${GLUG_TARGET_NAME++}
     SRC
         c++/main.cpp
-        c++/timer.hpp c++/timer.cpp
     LINK_LIBS
         glug_timer
 )
