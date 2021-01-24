@@ -1,9 +1,9 @@
 include(${CMAKE_CURRENT_LIST_DIR}/os.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/set_export_defs.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/set_compilation_props.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/link_libs.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/set_export_defs.cmake)
 
 function(add_gluglib)
-    include(cmake/set_compilation_props.cmake)
     set(OPTIONS)
     set(SINGLE_VALS STATIC_BUILD TARGET_NAME)
     set(
