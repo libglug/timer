@@ -47,12 +47,5 @@ foreach(EXAMPLE_TARGET IN LISTS EXAMPLE_TARGETS)
     )
 endforeach()
 
-# add the "check" target to build all tests and enable testing to run them using ctest
 enable_testing()
 include(test/tests.cmake)
-
-add_custom_target(
-    check
-    DEPENDS
-        ${TEST_TARGETS}
-)
