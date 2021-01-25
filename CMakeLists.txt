@@ -49,15 +49,7 @@ endforeach()
 
 # add the "check" target to build all tests and enable testing to run them using ctest
 enable_testing()
-add_subdirectory(test EXCLUDE_FROM_ALL)
-
-get_property(
-    TEST_TARGETS
-    DIRECTORY
-        test
-    PROPERTY
-        BUILDSYSTEM_TARGETS
-)
+include(test/tests.cmake)
 
 add_custom_target(
     check
