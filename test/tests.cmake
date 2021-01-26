@@ -109,3 +109,22 @@ foreach(TEST_TARGET IN LISTS TEST_TARGETS)
                 $<TARGET_FILE:CUnit> $<TARGET_FILE_DIR:${TEST_TARGET}>
     )
 endforeach()
+
+add_test(
+    NAME
+        timer-install-test
+    COMMAND
+        ${CMAKE_COMMAND}
+            -DSYSTEM=${CMAKE_SYSTEM_NAME}
+            -DSRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+            -DINSTALL_DIR=${CMAKE_INSTALL_PREFIX}
+            -DCHECK_FILE=${CMAKE_CURRENT_LIST_DIR}/install_file_list.cmake
+            -P "${CMAKE_CURRENT_LIST_DIR}/test-install.cmake"
+)
+
+# add the "check" target to build all tests
+add_custom_target(
+    check
+    DEPENDS
+        ${TEST_TARGETS}
+)
