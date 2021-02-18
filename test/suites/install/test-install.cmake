@@ -1,4 +1,5 @@
 function(test_lists_equal ACTUAL EXPECTED ERROR_VARIABLE)
+    list(FILTER ${ACTUAL} EXCLUDE REGEX .DS_Store)
     # test the lists are of equal length
     list(LENGTH ${ACTUAL} N_ACTUAL)
     list(LENGTH ${EXPECTED} N_EXPECTED)

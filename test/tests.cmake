@@ -1,5 +1,4 @@
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/cunit/CUnit EXCLUDE_FROM_ALL)
-include(${CMAKE_CURRENT_LIST_DIR}/add_unit_test.cmake)
 
 find_package(glug_timer REQUIRED)
 
@@ -31,28 +30,44 @@ function(add_test_by_conf TEST_ROOT TEST_CONF)
             ${TEST_ROOT}/utils/
     )
 
-    add_unit_test(
-        TARGET
-            ${TEST_TARGET}
-        SOURCES
-            ${TEST_SOURCE}
-            ${TEST_LIB_SOURCE}
-            ${TEST_MOCK_SOURCE}
-            ${TEST_ROOT}/utils/suites/create_suite.h
-            ${TEST_ROOT}/utils/suites/create_suite.c
-            ${TEST_ROOT}/utils/asserts/time.h
-            ${TEST_ROOT}/utils/asserts/time.c
-            ${TEST_ROOT}/utils/asserts/frac.h
-            ${TEST_ROOT}/utils/asserts/frac.c
-            ${TEST_ROOT}/utils/asserts/clocktime.h
-            ${TEST_ROOT}/utils/asserts/clocktime.c
-        INCLUDE_DIRS
+    add_executable(
+        ${TEST_TARGET}
+        EXCLUDE_FROM_ALL
+        ${TEST_SOURCE}
+        ${TEST_LIB_SOURCE}
+        ${TEST_MOCK_SOURCE}
+        ${TEST_ROOT}/utils/suites/create_suite.h
+        ${TEST_ROOT}/utils/suites/create_suite.c
+        ${TEST_ROOT}/utils/asserts/time.h
+        ${TEST_ROOT}/utils/asserts/time.c
+        ${TEST_ROOT}/utils/asserts/frac.h
+        ${TEST_ROOT}/utils/asserts/frac.c
+        ${TEST_ROOT}/utils/asserts/clocktime.h
+        ${TEST_ROOT}/utils/asserts/clocktime.c
+    )
+
+    target_include_directories(
+        ${TEST_TARGET}
+        PRIVATE
             ${TEST_ROOT}/utils
             ${TEST_ROOT}/utils/mocks
             ${LIB_SRC_ROOT}
             ${LIB_INC_ROOT}
             ${TEST_INCLUDE_DIRS}
     )
+
+    target_link_libraries(
+        ${TEST_TARGET}
+        CUnit
+    )
+
+    target_compile_definitions(
+        ${TEST_TARGET}
+        PRIVATE
+            GLUG_LIB_LOCAL=
+            GLUG_LIB_API=
+    )
+    add_test(${TEST_TARGET} ${TEST_TARGET})
 
     foreach(DEF IN LISTS TEST_DEFS)
         target_compile_definitions(
@@ -112,14 +127,14 @@ endforeach()
 
 add_test(
     NAME
-        timer-install-test
+        test-install-timer
     COMMAND
         ${CMAKE_COMMAND}
             -DSYSTEM=${CMAKE_SYSTEM_NAME}
             -DSRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}
             -DINSTALL_DIR=${CMAKE_INSTALL_PREFIX}
-            -DCHECK_FILE=${CMAKE_CURRENT_LIST_DIR}/install_file_list.cmake
-            -P "${CMAKE_CURRENT_LIST_DIR}/test-install.cmake"
+            -DCHECK_FILE=${CMAKE_CURRENT_LIST_DIR}/suites/install/install_file_list.cmake
+            -P "${CMAKE_CURRENT_LIST_DIR}/suites/install/test-install.cmake"
 )
 
 # add the "check" target to build all tests
