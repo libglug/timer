@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.7)
 
 include(cmake/version.cmake)
-include(cmake/set_compilation_props.cmake)
 
-parse_git_tag_version("VER_MAJOR" "VER_MINOR" "VER_PATCH" "VER_META" "VER_REV" "VER_HASH" "VER_FULL")
-set(FULL_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META}")
+include(cmake/detect_os.cmake)
+include(cmake/set_compilation_props.cmake)
+include(cmake/link_libs.cmake)
+include(cmake/set_export_defs.cmake)
+
+parse_git_tag_version(VER_MAJOR VER_MINOR VER_PATCH VER_META VER_REV VER_HASH VER_FULL)
+set(FULL_VERSION ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}-${VER_META})
 
 project(
     glug_timer
@@ -14,122 +18,63 @@ project(
         ${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}
 )
 
-include(cmake/add_gluglib.cmake)
-
 option(BUILD_STATIC "Build as a static library instead of shared?" OFF)
 
-set(COM_ROOT common_headers/include/glug)
-set(SRC_ROOT src)
-set(INC_ROOT include/glug)
+detect_os(IS_WIN IS_OSX IS_LIN IS_BSD)
 
 # configure files
 set(CONFIGURED_OUT_ROOT ${CMAKE_CURRENT_BINARY_DIR}/configured)
-configure_file(${INC_ROOT}/timer/version.h.in ${CONFIGURED_OUT_ROOT}/include/glug/timer/version.h)
+configure_file(include/glug/timer/version.h.in ${CONFIGURED_OUT_ROOT}/include/glug/timer/version.h)
 
-list(
-    APPEND
-    COMMON_SOURCE
-    ${COM_ROOT}/allocator_t.h
-    ${COM_ROOT}/std_allocator.inl
-    ${COM_ROOT}/bool.h
-    ${COM_ROOT}/extern.h
-    ${COM_ROOT}/import.h
-    ${COM_ROOT}/os.h
-    ${COM_ROOT}/params.h
-    ${INC_ROOT}/timer.h
-    ${INC_ROOT}/timer/version.h.in
-    ${INC_ROOT}/timer/continuous_timer.h
-    ${INC_ROOT}/timer/uptime_timer.h
-    ${INC_ROOT}/timer/continuous_timer_t.h
-    ${INC_ROOT}/timer/uptime_timer_t.h
-    ${INC_ROOT}/timer/time_t.h
-    ${INC_ROOT}/timer/timer_state.h
-    ${SRC_ROOT}/timer.h
-    ${SRC_ROOT}/timer.c
-    ${SRC_ROOT}/continuous_timer.c
-    ${SRC_ROOT}/uptime_timer.c
-    ${SRC_ROOT}/frac_t.h
-    ${SRC_ROOT}/timer_bridge.h
-    ${SRC_ROOT}/tick.h
-    ${SRC_ROOT}/tick.c
-    ${SRC_ROOT}/defs.h
-)
+include(common_src.cmake)
 
-# Windows sources
-list(
-    APPEND
-    WIN32_SOURCE
+include(windows.cmake)
+include(osx.cmake)
+include(linux.cmake)
+include(bsd.cmake)
+
+set_compilation_props("${BINDINGS}"   FALSE)
+set_compilation_props("${WIN_SOURCE}" FALSE)
+set_compilation_props("${OSX_SOURCE}" FALSE)
+set_compilation_props("${LIN_SOURCE}" FALSE)
+set_compilation_props("${BSD_SOURCE}" FALSE)
+
+if (${IS_WIN})
+    set(PLATFORM_SRC  "${WIN_SOURCE}")
+    set(PLATFORM_LIBS "${WIN_LIBS}")
+elseif (${IS_OSX})
+    set(PLATFORM_SRC  "${OSX_SOURCE}")
+    set(PLATFORM_LIBS "${OSX_LIBS}")
+elseif (${IS_LIN})
+
+    set(PLATFORM_SRC  "${LIN_SOURCE}")
+    set(PLATFORM_LIBS "${LIN_LIBS}")
+elseif (${IS_BSD})
+    set(PLATFORM_SRC  "${BSD_SOURCE}")
+    set(PLATFORM_LIBS "${BSD_LIBS}")
+endif()
+
+set_compilation_props("${PLATFORM_SRC}" TRUE)
+
+# set the library type
+set(LIB_TYPE SHARED)
+if (BUILD_STATIC)
+    set(LIB_TYPE STATIC)
+endif()
+
+add_library(
+    glug_timer
+    SHARED
     ${COMMON_SOURCE}
-    ${SRC_ROOT}/timer_bridge_win32.c
-    ${SRC_ROOT}/qpc/qpc.h
-    ${SRC_ROOT}/qpc/qpc.c
-    ${SRC_ROOT}/qpc/quit.h
-    ${SRC_ROOT}/qpc/quit.c
-)
-
-# Mac OS sources
-list(
-    APPEND
-    MACOS_SOURCE
-    ${COMMON_SOURCE}
-    ${SRC_ROOT}/timer_bridge_osx.c
-    ${SRC_ROOT}/mach/mach.h
-    ${SRC_ROOT}/mach/mach.c
-)
-
-# linux sources
-list(
-    APPEND
-    LINUX_SOURCE
-    ${COMMON_SOURCE}
-    ${SRC_ROOT}/timer_bridge_linux.c
-    ${SRC_ROOT}/clock/clock.h
-    ${SRC_ROOT}/clock/clock.c
-)
-
-#bsd sources
-list(
-    APPEND
-    BSD_SOURCE
-    ${COMMON_SOURCE}
-    ${SRC_ROOT}/timer_bridge_bsd.c
-    ${SRC_ROOT}/clock/clock.h
-    ${SRC_ROOT}/clock/clock.c
-)
-
-add_gluglib(
-    TARGET_NAME
-        glug_timer
-    STATIC_BUILD
-        ${BUILD_STATIC}
-    WIN32_SOURCE
-        ${WIN32_SOURCE}
-    MACOS_SOURCE
-        ${MACOS_SOURCE}
-    LINUX_SOURCE
-        ${LINUX_SOURCE}
-    BSD_SOURCE
-        ${BSD_SOURCE}
-)
-
-# add bindings headers
-set(BIND_ROOT ${INC_ROOT}/timer/bindings)
-list(
-    APPEND
-    BINDINGS
-    ${BIND_ROOT}/c++/continuous_timer.hpp
-    ${BIND_ROOT}/c++/continuous_timer.inl
-    ${BIND_ROOT}/c++/uptime_timer.hpp
-    ${BIND_ROOT}/c++/uptime_timer.inl
-)
-
-set_compilation_props("${BINDINGS}" FALSE)
-
-list(
-    APPEND
-    COMMON_SOURCE
     ${BINDINGS}
+    ${WIN_SOURCE}
+    ${OSX_SOURCE}
+    ${LIN_SOURCE}
+    ${BSD_SOURCE}
 )
+
+link_libs(glug_timer "${PLATFORM_LIBS}")
+set_export_defs(glug_timer ${BUILD_STATIC} ${IS_WIN})
 
 target_compile_definitions(
     glug_timer
