@@ -1,6 +1,6 @@
 # find and link to each library for TARGET
 function(link_libs TARGET LIBS)
-    foreach (LIB ${LIBS})
+    foreach (LIB IN LISTS LIBS)
         find_library(FOUND_LIB ${LIB})
 
         if (NOT FOUND_LIB)

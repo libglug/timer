@@ -67,7 +67,6 @@ function(add_test_by_conf TEST_ROOT TEST_CONF)
             GLUG_LIB_LOCAL=
             GLUG_LIB_API=
     )
-    add_test(${TEST_TARGET} ${TEST_TARGET})
 
     foreach(DEF IN LISTS TEST_DEFS)
         target_compile_definitions(
@@ -91,8 +90,8 @@ function(add_test_by_conf TEST_ROOT TEST_CONF)
         ${TEST_TARGET}
     )
 
+    add_test(${TEST_TARGET} ${TEST_TARGET})
     set(TEST_TARGETS ${TEST_TARGETS} PARENT_SCOPE)
-
 endfunction()
 
 # unit tests
