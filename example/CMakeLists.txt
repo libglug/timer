@@ -30,7 +30,7 @@ add_example(
     SRC
         c/main.c
     LINK_LIBS
-        glug_timer
+        glug::timer
 )
 
 add_example(
@@ -39,7 +39,7 @@ add_example(
     SRC
         c++/main.cpp
     LINK_LIBS
-        glug_timer
+        glug::timer
 )
 
 target_compile_features(

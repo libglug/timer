@@ -1,0 +1,9 @@
+@PACKAGE_INIT@
+
+get_filename_component(glug_timer_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+if(NOT TARGET glug::timer)
+    include("${glug_timer_CMAKE_DIR}/glug_timer-targets.cmake")
+endif()
+
+check_required_components(glug_timer)

@@ -5,7 +5,7 @@ enum glug_timer_state
 {
     glug_ts_stopped,
     glug_ts_running,
-    glug_ts_paused,
+    glug_ts_paused
 };
 
 #ifdef GLUG_USE_TYPEDEFS

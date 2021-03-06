@@ -36,9 +36,25 @@ list(
 
 list(
     APPEND
-    EXPECTED_EXAMPLES_WIN
+    EXPECTED_EXAMPLES_WIN_MSVC
     example-glug_timer.exe
     example-glug_timer_cpp.exe
+    glug_timer.dll
+)
+
+list(
+    APPEND
+    EXPECTED_EXAMPLES_WIN_MINGW
+    example-glug_timer.exe
+    example-glug_timer_cpp.exe
+    libglug_timer.dll
+)
+list(
+    APPEND
+    EXPECTED_EXAMPLES_OSX
+    example-glug_timer
+    example-glug_timer_cpp
+    libglug_timer.dylib
 )
 
 list(
@@ -46,6 +62,7 @@ list(
     EXPECTED_EXAMPLES_NIX
     example-glug_timer
     example-glug_timer_cpp
+    libglug_timer.so
 )
 
 list(
@@ -77,14 +94,13 @@ list(
 list(
     APPEND
     EXPECTED_EXPORTS_DEBUG
-    Find-glug_timer.cmake
-    Find-glug_timer-debug.cmake
+    glug_timer-targets.cmake
+    glug_timer-targets-debug.cmake
 )
 
 list(
     APPEND
     EXPECTED_EXPORTS_RELEASE
-    Find-glug_timer.cmake
-    Find-glug_timer-release.cmake
+    glug_timer-targets.cmake
+    glug_timer-targets-release.cmake
 )
-
