@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
+include(CMakePackageConfigHelpers)
 
 include(cmake/version.cmake)
 
@@ -73,6 +74,8 @@ add_library(
     ${BSD_SOURCE}
 )
 
+add_library(glug::timer ALIAS glug_timer)
+
 link_libs(glug_timer "${PLATFORM_LIBS}")
 set_export_defs(glug_timer ${BUILD_STATIC} ${IS_WIN})
 
@@ -94,14 +97,12 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>
 )
 
-# install the library
-install(
-    TARGETS
-        glug_timer
-    EXPORT
-        Find-glug_timer
-    DESTINATION
-        lib
+set(PROJECT_CONFIG_FILE glug_timer-config.cmake)
+configure_package_config_file(
+    cmake/config.cmake.in
+    ${PROJECT_CONFIG_FILE}
+    INSTALL_DESTINATION
+        cmake
 )
 
 # install the lib's headers
@@ -113,7 +114,6 @@ install(
     FILES_MATCHING
         PATTERN "*"
         PATTERN "*.in" EXCLUDE
-
 )
 
 # install the lib's configured version file
@@ -135,19 +135,38 @@ install(
         PATTERN "*.in$" EXCLUDE
 )
 
-# export the package to be included in other projects
-export(PACKAGE glug_timer)
-export(
+# install the library and its exports
+install(
     TARGETS
         glug_timer
-    FILE
-        glug_timer-config.cmake
+    EXPORT
+        glug_timer-targets
+    RUNTIME DESTINATION
+        lib
+    LIBRARY DESTINATION
+        lib
+    ARCHIVE DESTINATION
+        lib
 )
 
-# install export file
+# export the package to be included in other projects
 install(
     EXPORT
-        Find-glug_timer
+        glug_timer-targets
+    FILE
+        glug_timer-targets.cmake
+    NAMESPACE
+        glug::
     DESTINATION
         cmake
 )
+export(
+    EXPORT
+        glug_timer-targets
+    FILE
+        glug_timer-config.cmake
+    NAMESPACE
+        glug::
+)
+
+export(PACKAGE glug_timer)

@@ -96,11 +96,30 @@ file(
 )
 
 if ("${SYSTEM}" STREQUAL "Windows")
+    test_lists_equal(EXAMPLES EXPECTED_EXAMPLES_WIN_MSVC ERROR)
 
-    test_lists_equal(EXAMPLES EXPECTED_EXAMPLES_WIN ERROR)
+    if (ERROR)
+        test_lists_equal(EXAMPLES EXPECTED_EXAMPLES_WIN_MINGW ERROR_GCC)
+        if (NOT ERROR_GCC)
+            unset(ERROR)
+        endif()
+        if (ERROR_GCC)
+            execute_process(COMMAND ${CMAKE_COMMAND} -E echo "failed")
+            message(
+                FATAL_ERROR
+                "examples are not equal\n"
+                "${ERROR_GCC}\n"
+                "--- OR ---\n"
+                "${ERROR}"
+            )
+        endif()
+    endif()
 
-elseif ("${SYSTEM}" STREQUAL "Darwin" OR
-        "${SYSTEM}" STREQUAL "Linux" OR
+elseif ("${SYSTEM}" STREQUAL "Darwin")
+
+    test_lists_equal(EXAMPLES EXPECTED_EXAMPLES_OSX ERROR)
+
+elseif ("${SYSTEM}" STREQUAL "Linux" OR
         "${SYSTEM}" STREQUAL "FreeBSD" OR
         "${SYSTEM}" STREQUAL "OpenBSD")
 
@@ -175,7 +194,6 @@ endif()
 execute_process(COMMAND ${CMAKE_COMMAND} -E echo "passed")
 
 # test the exports
-# TODO: pass in the build type to properly verify the exports (only supports debug and rel builds)
 execute_process(COMMAND ${CMAKE_COMMAND} -E echo_append "  Test: install correct exports ...")
 file(
     GLOB_RECURSE
